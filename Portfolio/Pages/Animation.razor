@@ -1,0 +1,27 @@
+﻿<div data-aos="@_animationName"
+     data-aos-duration="@_duration"
+     data-aos-anchor-placement="bottom-bottom"
+     data-aos-offset="350">
+    @ChildContent
+</div>
+
+@code {
+    private string _animationName = "";
+    private string _duration = "";
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string AnimationSelected { get; set; } = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        _duration = "4000";
+
+        if (!string.IsNullOrEmpty(AnimationSelected))
+        {
+            _animationName = AnimationSelected;
+        }
+    }
+}

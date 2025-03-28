@@ -1,0 +1,1160 @@
+﻿@page "/Games"
+@inject IJSRuntime JS
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #0A0A0A;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background: linear-gradient(to right, #FF7E00, #FFA500);
+        color: white;
+        padding: 0 40px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 80px;
+        font-size: 20px;
+    }
+
+    nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #121212;
+            font-weight: bold;
+            position: relative;
+            padding: 15px 0;
+            display: inline-block;
+            font-size: 22px;
+        }
+
+            nav ul li a::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 2px;
+                background-color: yellow;
+                transition: width 0.3s ease-in-out;
+            }
+
+            nav ul li a:hover::after {
+                width: 100%;
+            }
+
+    .description {
+        text-align: center;
+        padding: 40px;
+        background-color: #121212;
+        font-size: 20px;
+        line-height: 1.6;
+        max-width: 1000px;
+        margin: 40px auto;
+        color: white;
+        border: 1px solid #333;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+        .description:hover {
+            transform: scale(1.02);
+        }
+
+    .carousel-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #0A0A0A;
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .carousel-container {
+        width: 1040px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease;
+        gap: 20px;
+    }
+
+        .carousel-track img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+    .carousel-button {
+        background-color: #FFA500;
+        border: none;
+        color: black;
+        font-size: 24px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        margin: 0 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .carousel-button:hover {
+            background-color: #FF7E00;
+        }
+</style>
+
+<header>
+    <nav>
+        <ul>
+            <li><NavLink href="/" class="hover:text-yellow-300 transition duration-300">Home</NavLink></li>
+            <li><NavLink href="/about" class="hover:text-yellow-300 transition duration-300">About</NavLink></li>
+            <li><NavLink href="/services" class="hover:text-yellow-300 transition duration-300">Services</NavLink></li>
+            <li><NavLink href="/contact" class="hover:text-yellow-300 transition duration-300">Contact</NavLink></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="description">
+    <h3>About Me</h3>
+    <p>
+        I've been coding for seven years, working on all sorts of projects with different
+        programming languages and technologies. I started out focusing on Unity but recently
+        branched out to explore other languages, like Flutter with Dart and C++ with CMake, to
+        expand my programming knowledge.
+    </p>
+</section>
+
+<section class="carousel-wrapper">
+    <button class="carousel-button" @onclick="ScrollLeft">&#8592;</button>
+    <div class="carousel-container">
+        <div class="carousel-track" @ref="CarouselTrackRef" style="@($"transform: translateX(-{TranslateOffset}px)")">
+            @foreach (var image in DisplayedImages)
+            {
+                <img src="@image.Src" @onclick="() => SelectImage(image.Name)" />
+            }
+        </div>
+    </div>
+    <button class="carousel-button" @onclick="ScrollRight">&#8594;</button>
+</section>
+
+@if (SelectedImageName == "Castle Climbers")
+{
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Minigames.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="description">
+        <h4>Technologies</h4>
+        <p>@SelectedImageName</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
+                <!-- Unity -->
+                <div style="text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                        <img src="../Images/Unity Icon.webp" style="width: 50px; height: 50px;" alt="Unity Icon" />
+                        <h5 style="margin: 0;">Unity</h5>
+                    </div>
+                    <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
+                </div>
+
+                <!-- C# -->
+                <div style="text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                        <img src="../Images/C Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
+                        <h5 style="margin: 0;">C#</h5>
+                    </div>
+                    <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
+                </div>
+
+                <!-- Firebase -->
+                <div style="text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                        <img src="../Images/Firebase Icon.png" style="width: 55px; height: 55px;" alt="Firebase Icon" />
+                        <h5 style="margin: 0;">Firebase</h5>
+                    </div>
+                    <p style="margin: 10px 0 0;">
+                        Used for backend services so all user data could be stored. Also generated leaderboards.
+                    </p>
+                </div>
+
+                <!-- JavaScript -->
+                <div style="text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                        <img src="../Images/Javascript Icon.webp" style="width: 65px; height: 65px;" alt="JavaScript Icon" />
+                        <h5 style="margin: 0;">JavaScript</h5>
+                    </div>
+                    <p style="margin: 10px 0 0;">Used for web-based integrations and chart rendering.</p>
+                </div>
+
+                <!-- Xcode -->
+                <div style="text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                        <img src="../Images/Xcode Icon.webp" style="width: 64px; height: 64px;" alt="Xcode Icon" />
+                        <h5 style="margin: 0;">Xcode</h5>
+                    </div>
+                    <p style="margin: 10px 0 0;">Used for iOS builds and App Store deployment.</p>
+                </div>
+
+                <!-- App Store -->
+                <div style="text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                        <img src="../Images/App Store Icon.png" style="width: 50px; height: 50px;" alt="App Store Icon" />
+                        <h5 style="margin: 0;">App Store</h5>
+                    </div>
+                    <p style="margin: 10px 0 0;">Game published on the App Store for iOS users.</p>
+                </div>
+            </div>
+    </section>
+
+    
+
+    <section class="description">
+        <h4 style="width: 100%; text-align: center;">App Store Ratings</h4>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: nowrap;">
+            <div style="flex-shrink: 0;">
+                <canvas id="ratingsChart" width="600" height="300"></canvas>
+            </div>
+            <div style="max-width: 300px; text-align: left;">
+                <p>
+                    Castle Climbers has received overwhelmingly positive reviews, with the majority of players
+                    rating it 5 stars for its fun gameplay, smooth controls, and challenging level design.
+                    The intuitive mechanics and replay value have made it a favorite among platformer fans.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="description">
+        <h4>Game Stats</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
+            <div>
+                <h5>Total Games Played</h5>
+                <p>2,442</p>
+            </div>
+            <div>
+                <h5>Total Jumps</h5>
+                <p>126,279</p>
+            </div>
+            <div>
+                <h5>Total Fall Distance</h5>
+                <p>189,839m</p>
+            </div>
+            <div>
+                <h5>Total Coins</h5>
+                <p>145,522</p>
+            </div>
+            <div>
+                <h5>Total Points</h5>
+                <p>693,460</p>
+            </div>
+            <div>
+                <h5>Total Time Played</h5>
+                <p>88h 20m</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <h4>What I Learned</h4>
+        <p>
+            This project taught me about player feedback loops, camera smoothing, and efficient sprite animation.
+            It also gave me experience fine-tuning difficulty curves and level pacing.
+        </p>
+    </section>
+}
+@if (SelectedImageName == "Health Game")
+{
+
+    <section class="description">
+        <h4>Technologies</h4>
+        <p>@SelectedImageName</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
+            <!-- Unity -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/Unity Icon.webp" style="width: 50px; height: 50px;" alt="Unity Icon" />
+                    <h5 style="margin: 0;">Flutter</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
+            </div>
+
+            <!-- C# -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/C Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
+                    <h5 style="margin: 0;">Dart</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
+            </div>
+
+            <!-- Firebase -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/Pycharm Icon.png" style="width: 55px; height: 55px;" alt="Firebase Icon" />
+                    <h5 style="margin: 0;">Firebase</h5>
+                </div>
+                <p style="margin: 10px 0 0;">
+                    Used for backend services so all user data could be stored. Also generated leaderboards.
+                </p>
+            </div>
+
+            <!-- App Store -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/OpenCV Icon.png" style="width: 50px; height: 50px;" alt="App Store Icon" />
+                    <h5 style="margin: 0;">App Store</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Game published on the App Store for iOS users.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Yellow 1.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Yellow 2.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Yellow 3.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Yellow 4.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Blue 1.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Blue 2.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Blue 3.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Blue 4.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Green 1.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Green 2.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Green 3.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Green 4.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Red 1.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Red 2.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Red 3.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Red 4.jpeg" alt="Red 4"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+            <img src="../Images/Analysis 1.jpeg" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+        </div>
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="../Images/Analysis 2.jpeg" alt="Red 4"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="description">
+        <h4>Progress Tracking</h4>
+        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: nowrap; width: 100%; max-width: 1000px; margin-left: auto; margin-right: auto;">
+            <div style="text-align: center;">
+                <p style="margin-bottom: 10px; font-weight: bold;">Report</p>
+                <div style="position: relative; width: 200px; height: 200px;">
+                    <canvas id="pieChart1"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; color: white;">78.5%</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 10px; font-weight: bold;">Poster</p>
+                <div style="position: relative; width: 200px; height: 200px;">
+                    <canvas id="pieChart2"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; color: white;">82.5%</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 10px; font-weight: bold;">Research Proposal</p>
+                <div style="position: relative; width: 200px; height: 200px;">
+                    <canvas id="pieChart3"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; color: white;">77.25%</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 10px; font-weight: bold;">Oral Examination</p>
+                <div style="position: relative; width: 200px; height: 200px;">
+                    <canvas id="pieChart4"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; color: white;">90%</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+}
+
+@if (SelectedImageName == "University Game 1")
+{
+    <section class="description">
+        <h4>Technologies</h4>
+        <p>@SelectedImageName</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px;">
+            <!-- Unity -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/Unity Icon.webp" style="width: 50px; height: 50px;" alt="Unity Icon" />
+                    <h5 style="margin: 0;">Flutter</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
+            </div>
+
+            <!-- C# -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/C Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
+                    <h5 style="margin: 0;">Dart</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
+            </div>
+
+           
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <h4>Game Stats</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
+            <div>
+                <h5>Downloads</h5>
+                <p>150</p>
+            </div>
+            <div>
+                <h5>Rating</h5>
+                <p>5.0</p>
+            </div>
+            <div>
+                <h5>Total Lists Created</h5>
+                <p>130</p>
+            </div>
+
+        </div>
+    </section>
+}
+
+@if (SelectedImageName == "World Builder 1")
+{
+    <section class="description">
+        <h4>Technologies</h4>
+        <p>@SelectedImageName</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px;">
+            <!-- Unity -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/Unity Icon.webp" style="width: 50px; height: 50px;" alt="Unity Icon" />
+                    <h5 style="margin: 0;">Flutter</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
+            </div>
+
+            <!-- C# -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/C Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
+                    <h5 style="margin: 0;">Dart</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <h4>Game Stats</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
+            <div>
+                <h5>Downloads</h5>
+                <p>150</p>
+            </div>
+            <div>
+                <h5>Rating</h5>
+                <p>5.0</p>
+            </div>
+            <div>
+                <h5>Total Lists Created</h5>
+                <p>130</p>
+            </div>
+
+        </div>
+    </section>
+}
+
+@if (SelectedImageName == "World Builder 2")
+{
+    <section class="description">
+        <h4>Technologies</h4>
+        <p>@SelectedImageName</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px;">
+            <!-- Unity -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/Cmake.png" style="width: 50px; height: 50px;" alt="Unity Icon" />
+                    <h5 style="margin: 0;">Flutter</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
+            </div>
+
+            <!-- C# -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/C+ Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
+                    <h5 style="margin: 0;">Dart</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <h4>Game Stats</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
+            <div>
+                <h5>Downloads</h5>
+                <p>150</p>
+            </div>
+            <div>
+                <h5>Rating</h5>
+                <p>5.0</p>
+            </div>
+            <div>
+                <h5>Total Lists Created</h5>
+                <p>130</p>
+            </div>
+
+        </div>
+    </section>
+}
+
+@if (SelectedImageName == "Uni Game 2")
+{
+    <section class="description">
+        <h4>Technologies</h4>
+        <p>@SelectedImageName</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px;">
+            <!-- Unity -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/Cmake.png" style="width: 50px; height: 50px;" alt="Unity Icon" />
+                    <h5 style="margin: 0;">Flutter</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
+            </div>
+
+            <!-- C# -->
+            <div style="text-align: center;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <img src="../Images/C+ Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
+                    <h5 style="margin: 0;">Dart</h5>
+                </div>
+                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
+                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
+
+            <div style="flex: 1;">
+                <h4>Gameplay Overview</h4>
+                <p>
+                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
+                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
+                    in the world in an evolving and more challenging environment, with different themes and environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <h4>Game Stats</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
+            <div>
+                <h5>Downloads</h5>
+                <p>150</p>
+            </div>
+            <div>
+                <h5>Rating</h5>
+                <p>5.0</p>
+            </div>
+            <div>
+                <h5>Total Lists Created</h5>
+                <p>130</p>
+            </div>
+
+        </div>
+    </section>
+}
+
+@code {
+    public class GameImage
+    {
+        public string Src { get; set; } = "";
+        public string Name { get; set; } = "";
+    }
+
+    private List<GameImage> AllImages = new()
+    {
+        new() { Src = "images/Castle Climbers Background.png", Name = "Castle Climbers" },
+        new() { Src = "images/Hand Copy Cover.png", Name = "Health Game" },
+        new() { Src = "Images/Car Game.png", Name = "Car Game" },
+        new() { Src = "images/Uni Game 1.png", Name = "University Game 1" },
+        new() { Src = "images/Uni Unity Scene.png", Name = "World Builder 1" },
+        new() { Src = "images/Scene.png", Name = "World Builder 2" },
+        new() { Src = "images/Scene 2.png", Name = "Uni Game 2" },
+    };
+
+    private List<GameImage> DisplayedImages = new();
+    private const int VisibleCount = 5;
+    private const int ImageWidthWithGap = 220;
+    private ElementReference CarouselTrackRef;
+    private int TranslateOffset = 0;
+    private bool IsTransitioning = false;
+    private string? SelectedImageName;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (SelectedImageName == "Castle Climbers")
+        {
+            await JS.InvokeVoidAsync("renderRatingsChart");
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        SelectedImageName = "Castle Climbers";
+
+        var extraFront = AllImages[^1];
+        var extraBack = AllImages[0];
+
+        DisplayedImages = new List<GameImage> { extraFront };
+        DisplayedImages.AddRange(AllImages.Take(VisibleCount));
+        DisplayedImages.Add(extraBack);
+
+        TranslateOffset = ImageWidthWithGap;
+    }
+
+    private async Task ScrollRight()
+    {
+        if (IsTransitioning) return;
+        IsTransitioning = true;
+
+        var first = AllImages[0];
+        AllImages.RemoveAt(0);
+        AllImages.Add(first);
+        UpdateDisplayedImages();
+
+        TranslateOffset = 0;
+        await JS.InvokeVoidAsync("resetCarouselTransform", CarouselTrackRef, TranslateOffset);
+        await Task.Yield();
+
+        TranslateOffset = ImageWidthWithGap;
+        StateHasChanged();
+        await Task.Delay(500);
+
+        IsTransitioning = false;
+    }
+
+    private async Task ScrollLeft()
+    {
+        if (IsTransitioning) return;
+        IsTransitioning = true;
+
+        var last = AllImages[^1];
+        AllImages.RemoveAt(AllImages.Count - 1);
+        AllImages.Insert(0, last);
+        UpdateDisplayedImages();
+
+        TranslateOffset = ImageWidthWithGap * 2;
+        await JS.InvokeVoidAsync("resetCarouselTransform", CarouselTrackRef, TranslateOffset);
+        await Task.Yield();
+
+        TranslateOffset = ImageWidthWithGap;
+        StateHasChanged();
+        await Task.Delay(500);
+
+        IsTransitioning = false;
+    }
+
+    private void UpdateDisplayedImages()
+    {
+        var extraFront = AllImages[^1];
+        var extraBack = AllImages[0];
+
+        DisplayedImages = new List<GameImage> { extraFront };
+        DisplayedImages.AddRange(AllImages.Take(VisibleCount));
+        DisplayedImages.Add(extraBack);
+    }
+
+    private async void SelectImage(string name)
+    {
+        SelectedImageName = name;
+        StateHasChanged();
+
+        if (name == "Castle Climbers")
+        {
+            await Task.Delay(100); // Small delay to ensure canvas renders
+            await JS.InvokeVoidAsync("renderRatingsChart");
+        }
+        else if (name == "Health Game")
+        {
+            await Task.Delay(100); // Ensure canvases are rendered
+            await JS.InvokeVoidAsync("renderHealthPieCharts");
+        }
+    }
+
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    window.resetCarouselTransform = (element, offset) => {
+        if (!element) return;
+        element.style.transition = "none";
+        element.style.transform = `translateX(-${offset}px)`;
+        void element.offsetHeight;
+        element.style.transition = "transform 0.5s ease";
+    };
+
+    window.renderRatingsChart = () => {
+        const ctx = document.getElementById('ratingsChart');
+        if (!ctx) return;
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['5', '4', '3', '2', '1'],
+                datasets: [{
+                    label: 'Rating',
+                    data: [9, 1, 0, 0, 0],
+                    backgroundColor: '#FFA500'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 9,
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+    };
+</script>
+<script>
+    function renderPieChart(id, value) {
+        const ctx = document.getElementById(id);
+        if (!ctx) return;
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [value, 100 - value],
+                    backgroundColor: ['#FFA500', '#121212'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+    }
+
+    window.renderHealthPieCharts = () => {
+        renderPieChart('pieChart1', 78.5);
+        renderPieChart('pieChart2', 82.5);
+        renderPieChart('pieChart3', 77.25);
+        renderPieChart('pieChart4', 90);
+    };
+</script>

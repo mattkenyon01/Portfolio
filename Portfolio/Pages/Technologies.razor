@@ -1,0 +1,240 @@
+﻿@page "/Technologies"
+
+@* Blazor component *@
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #0A0A0A;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background: linear-gradient(to right, #FF7E00, #FFA500);
+        color: white;
+        padding: 0 40px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 80px;
+        font-size: 20px;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+    }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+            nav ul li a {
+                text-decoration: none;
+                color: #121212;
+                font-weight: bold;
+                position: relative;
+                padding: 15px 0;
+                display: inline-block;
+                font-size: 22px;
+            }
+
+                nav ul li a::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: yellow;
+                    transition: width 0.3s ease-in-out;
+                }
+
+                nav ul li a:hover::after {
+                    width: 100%;
+                }
+
+    .description {
+        text-align: center;
+        padding: 40px;
+        background-color: #121212;
+        font-size: 20px;
+        line-height: 1.6;
+        max-width: 1000px;
+        margin: 80px auto;
+        color: white;
+    }
+
+    .tech-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+        text-align: center;
+        justify-content: center; /* Center items when there are few */
+    }
+
+    .tech-box {
+        background: #121212;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+
+        .tech-box img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+</style>
+
+<header>
+    <nav>
+        <ul>
+            <li><NavLink href="/" class="hover:text-yellow-300 transition duration-300">Home</NavLink></li>
+            <li><NavLink href="/about" class="hover:text-yellow-300 transition duration-300">About</NavLink></li>
+            <li><NavLink href="/services" class="hover:text-yellow-300 transition duration-300">Services</NavLink></li>
+            <li><NavLink href="/contact" class="hover:text-yellow-300 transition duration-300">Contact</NavLink></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="description">
+    <h3>About Me</h3>
+    <p>
+        I've been coding for seven years, working on all sorts of projects with different
+        programming languages and technologies. I started out focusing on Unity but recently
+        branched out to explore other languages, like Flutter with Dart and C++ with CMake, to
+        expand my programming knowledge.
+    </p>
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/C+ Icon.png" alt="Unity">
+        <h4>C++</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/C Icon.png" alt="Flutter">
+        <h4>C#</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Dart Icon.webp" alt="C++">
+        <h4>Dart</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/HTML.png" alt="Blazor">
+        <h4>HTML</h4>
+        <p>Creating modern web applications with Blazor and .NET.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/CSS.png" alt="Unity">
+        <h4>CSS</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Javascript Icon.webp" alt="Flutter">
+        <h4>Javascript</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/Unity Icon.webp" alt="Unity">
+        <h4>Unity</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Flutter Icon.png" alt="Flutter">
+        <h4>Flutter</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Cmake.png" alt="C++">
+        <h4>Cmake</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Blazor Icon.png" alt="Blazor">
+        <h4>Blazor</h4>
+        <p>Creating modern web applications with Blazor and .NET.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Net.png" alt="Unity">
+        <h4>.NET</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/Google Cloud.png" alt="Unity">
+        <h4>Google Cloud</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Azure Icon.png" alt="Flutter">
+        <h4>Azure</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/OpenCV Icon.png" alt="C++">
+        <h4>OpenCV</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Google Document AI.png" alt="Blazor">
+        <h4>Document AI</h4>
+        <p>Creating modern web applications with Blazor and .NET.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Firebase Icon.png" alt="Unity">
+        <h4>Firebase</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Epic Games Icon.png" alt="Unity">
+        <h4>Epic Online Services</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/App Store Icon.png" alt="Unity">
+        <h4>C++</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Xcode Icon.webp" alt="Flutter">
+        <h4>C#</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Github Icon.png" alt="Unity">
+        <h4>Github</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+</section>
