@@ -1,0 +1,253 @@
+﻿@page "/About"
+@using Portfolio.Pages
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #1e1e1e;
+        color: white;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 32px;
+        background-color: #1e1e1e;
+        z-index: 10;
+        position: relative;
+    }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffa500;
+        }
+
+        .navbar .menu {
+            display: flex;
+            gap: 24px;
+        }
+
+            .navbar .menu a {
+                text-decoration: none;
+                color: white;
+                font-weight: 500;
+            }
+
+                .navbar .menu a:hover {
+                    color: #ffa500;
+                }
+
+    .hero-banner {
+        position: relative;
+        width: 100%;
+        min-height: 60vh;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        flex-direction: column;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    .hero-banner-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    .hero-banner-text {
+        position: relative;
+        z-index: 1;
+        padding: 24px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 16px;
+        font-weight: bold;
+        color: white;
+        font-size: clamp(1.5rem, 5vw, 3rem);
+        max-width: 90%;
+    }
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        padding: 64px 32px;
+        gap: 24px;
+        text-align: left;
+    }
+
+        .section h2 {
+            font-size: 2.5rem;
+            color: #ffa500;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+    .section-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+        .section-content p {
+            font-size: 1.2rem;
+            color: #d3d3d3;
+            line-height: 1.6;
+            max-width: 600px;
+            flex: 1;
+        }
+
+        .section-content img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 12px;
+            flex: 1;
+        }
+
+    .donut-chart-container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        flex-shrink: 0;
+    }
+
+        .donut-chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+    .donut-chart-center-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.2rem;
+        color: white;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: #ffa500;
+    }
+
+</style>
+
+<!-- NAVIGATION -->
+<div class="navbar">
+    <div class="logo">MATT</div>
+    <div class="menu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Projects</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact</a>
+    </div>
+</div>
+
+<!-- HERO BANNER WITH TEXT -->
+<div class="hero-banner">
+    <img src="Images/Castle Climbers Background.png" alt="Castle Climbers Banner" class="hero-banner-image" />
+    <div class="hero-banner-text">
+        Castle Climbers — An Epic Pixel Adventure
+    </div>
+</div>
+
+<!-- SECTION: What is Castle Climbers -->
+<div class="section">
+    <h2>Education</h2>
+    <div class="section-content">
+        <p>
+            I achieved a <span class="highlight"> First Class</span>  in my <span class="highlight">Masters Degree in Computer Science</span> with specification of <span class="highlight">Games Engineering</span> from Newcastle University in the summer of 2025.
+            <br />
+            <br />
+            I also achieved an <span class="highlight">A* in Computer Science </span> at A levels, as well as 2 As in Physics and Maths. At GCSE level, I achieved an <span class="highlight">8 in Computer Science</span>, as well as two 9s, three 8s, four 7s and a 6.           
+        </p>
+        <img src="Images/newcastle-university.png" alt="Castle Climbers Screenshot" />
+    </div>
+</div>
+
+<!-- SECTION: Unity and C# -->
+<div class="section">
+    <h2>Coding Experience</h2>
+    <div class="section-content">
+        <p>
+            Since being introduced to Computer Science, I have always been entheusiastic about coding. I have been working with <span class="highlight">Unity </span> for  <span class="highlight">over 6 years</span>. To allow for completion of applications
+            other than games, I decided to expand my capabilities to other frameworks and languages a couple of years ago.
+        </p>
+        <img src="Images/Castle Climbers Background.png" alt="Unity C# Screenshot" />
+    </div>
+</div>
+
+<!-- SECTION: Firebase and Backend -->
+<div class="section">
+    <h2>Firebase and Backend</h2>
+    <div class="section-content">
+        <p>
+            We use Firebase for realtime data sync and authentication, making it easy to manage multiplayer sessions,
+            leaderboards, and user progress. The backend ensures smooth and reliable game state management.
+        </p>
+        <div class="donut-chart-container">
+            <canvas id="firebaseChart"></canvas>
+            <div class="donut-chart-center-text">
+                @DownloadStats.TotalDownloads<br />Total Downloads
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- SECTION: Update Cycle -->
+<div class="section">
+    <h2>Instagram and Socials</h2>
+    <div class="section-content">
+        <p>
+            Currently sat on <span class="highlight"> 112 followers </span> and growing.
+        </p>
+        <img src="Images/Castle Climbers Background.png" alt="Update Cycle Screenshot" />
+    </div>
+</div>
+
+<!-- SECTION: Unity and C# -->
+<div class="section">
+    <h2>Other Experience</h2>
+    <div class="section-content">
+        <p>
+            Castle Climbers is developed entirely in Unity using C#. Its architecture is modular and clean, supporting
+            procedural level generation, smooth animation handling, and multiplayer systems using custom logic.
+        </p>
+        <img src="Images/Castle Climbers Background.png" alt="Unity C# Screenshot" />
+    </div>
+</div>
+
+<!-- Chart.js and chart logic -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@inject IJSRuntime JS
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("renderChart",
+                DownloadStats.CastleClimbersDownloads,
+                DownloadStats.BucketConnectDownloads,
+                DownloadStats.GirlsWhoWalkDownloads);
+        }
+    }
+}
