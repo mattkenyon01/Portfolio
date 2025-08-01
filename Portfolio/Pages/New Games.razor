@@ -1,0 +1,708 @@
+﻿@page "/GamesPlus"
+
+<style>
+    * {
+        margin: -8px;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: -8px;
+        padding: 0;
+        height: 100%;
+        width: 102%;
+        overflow-x: hidden;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #bc2e0f;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-section {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        background-image: url('Images/Games Illustrated Cover.png');
+        background-size: cover;
+        background-position: 30% top;
+        background-repeat: no-repeat;
+    }
+
+    /* App Bar overlays hero-section */
+    .app-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 36px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        z-index: 10; /* above hero text */
+        margin-top: 8px;
+        justify-content: space-between;
+    }
+
+        .app-bar .logo {
+            font-weight: 700;
+        }
+
+        .app-bar nav {
+            display: flex;
+            gap: 24px;
+        }
+
+            .app-bar nav a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                cursor: pointer;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+                .app-bar nav a:hover,
+                .app-bar nav a.active {
+                    background-color: #971d21; /* your deep red highlight */
+                    color: white;
+                }
+
+    .new-section {
+        background-color: #bc2e0f;
+        width: 100%;
+        padding: 80px 20px; /* Adds 80px space above and below, 20px left/right */
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: white;
+        font-size: 1.5rem;
+        flex-direction: column;
+    }
+
+
+        .new-section h2 {
+            font-size: 2.5rem; /* or 3rem if you want it even bigger */
+            margin-bottom: 16px;
+            font-weight: 700;
+            color: #4f0c18;
+        }
+
+
+        .new-section p, .new-section ul {
+            max-width: 700px;
+            line-height: 1.6;
+            font-weight: 400;
+            color: #4f0c18;
+        }
+
+        .new-section p {
+            text-align: center;
+            margin: 0 0 16px; /* remove auto side margins */
+        }
+
+    .image-section {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        background-color: #db6044;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .background-img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .overlay-content {
+        z-index: 2;
+        color: white;
+        text-align: center;
+        max-width: 700px;
+        padding: 0px ;
+    }
+
+        .overlay-content h2 {
+            font-size: 2.5rem;
+            margin: -200px 0 16px; /* was 32px 0 16px */
+            font-weight: 700;
+        }
+
+        .overlay-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+    .image-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .image-container img {
+        width: 300px;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .small-image img {
+        width: 200px;
+    }
+
+    .gallery-button {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .gallery-button button {
+            background-color: #420f22;
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .gallery-button button:hover {
+                background-color: #c02d2d;
+            }
+
+
+    .games-header {
+        font-size: 2.5rem;
+        color: #971d21;
+        font-weight: bold;
+    }
+
+    .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+        .filter-bar select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            background-color: #4f0c18;
+            color: white;
+            font-size: 1rem;
+            min-width: 160px;
+        }
+
+    .selected-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-left: auto;
+    }
+
+    .tag {
+        border-radius: 50%;
+        padding: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .tag:hover {
+            background-color: #ffb733;
+        }
+
+    .game-card {
+
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        color: white;
+    }
+
+    .game-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .tag-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+        .tag-row img {
+            width: 36px;
+            height: 36px;
+        }
+
+    .card-content {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        align-items: flex-start;
+    }
+
+    .game-thumbnail {
+        width: 300px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+        background-color: #444;
+    }
+
+    .game-info {
+        flex: 1;
+    }
+
+    .game-description {
+        color: #d3d3d3;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    .game-button {
+        margin-top: 10px;
+        color: black;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .game-button:hover {
+            background-color: #ffb733;
+        }
+
+    .tag-icon {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        display: inline-block;
+        margin: 2px;
+    }
+
+    .section-divider {
+        position: relative;
+        width: 100%;
+        padding-top: 28.125%; /* 16:4 aspect ratio — adjust as needed */
+        background-image: url('Images/Wave.png');
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        height: 100px;
+
+    }
+</style>
+
+
+<div class="hero-section">
+    <div class="app-bar">
+        <div class="logo">Matthew Kenyon</div>
+        <nav>
+            <a href="#games" class="active">Games</a>
+            <a href="#apps">Apps</a>
+            <a href="#about">About</a>
+        </nav>
+    </div>
+</div>
+
+<div class="new-section">
+    <h2>Games I've Developed</h2>
+    <p>
+        From pixel-perfect platformers to procedurally generated worlds, these games showcase my passion for gameplay systems, design, and technical depth. Each project is built with performance, polish, and player experience in mind.
+    </p>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="games-page">
+    @*
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <select @onchange='e => HandleSelect(e, "Type")'>
+            <option selected disabled>Type</option>
+            <option>Games</option>
+            <option>Software</option>
+        </select>
+
+        <select @onchange='e => HandleSelect(e, "Language")'>
+            <option selected disabled>Language</option>
+            <option>C#</option>
+            <option>Pycharm</option>
+            <option>JavaScript</option>
+            <option>Lua</option>
+        </select>
+        <select @onchange='e => HandleSelect(e, "Framework")'>
+            <option selected disabled>Engine/Framework</option>
+            <option>Unity</option>
+            <option>Godot</option>
+            <option>Unreal</option>
+            <option>Blazor</option>
+        </select>
+        <select @onchange='e => HandleSelect(e, "Tech")'>
+            <option selected disabled>Additional Tech</option>
+            <option>Google AdMob</option>
+            <option>SQLite</option>
+            <option>Shader Graph</option>
+            <option>WebGL</option>
+        </select>
+
+        <!-- Selected Tags -->
+        <div class="selected-tags">
+            @foreach (var tag in selectedTags)
+            {
+                <div class="tag" @onclick="() => RemoveTag(tag)">
+                    <img src="@GetIconForTag(tag)" alt="@tag" class="tag-icon" />
+                </div>
+            }
+        </div>
+
+    </div>
+    *@
+    @foreach (var game in allGames.Where(MatchesSelectedTags))
+    {
+        <div class="section-divider"></div>
+        <div class="game-card">
+            <div class="game-title">@((MarkupString)game.Title)</div>
+
+            <div class="tag-row">
+                @foreach (var tag in game.Tags)
+                {
+                    <img src="@GetIconForTag(tag)" alt="@tag" />
+                }
+            </div>
+
+            <div class="card-content">
+                <img src="@game.Thumbnail" class="game-thumbnail" alt="@game.Title" />
+
+                <div class="game-info">
+                    <div class="game-description">@((MarkupString)game.Description)</div>
+                    <NavLink class="game-button"
+                             href="@game.DetailsUrl"
+                             style=@($"background-color:{game.ButtonColor ?? "#ffa500"}; color:black;")>
+                        View Details
+                    </NavLink>
+                </div>
+            </div>
+        </div>
+
+    }
+
+</div>
+
+
+@code {
+    private List<string> selectedTags = new();
+
+    private string GetIconForTag(string tag) => tag switch
+    {
+        "Games" => "icons/gamepad.svg",
+        "Software" => "icons/code.svg",
+        "Pycharm" => "images/Pycharm Icon.png",
+        "C#" => "images/C Icon.png",
+        "c" => "images/C Icon.png",
+        "Supabase" => "images/Supabase.png",
+        "Azure" => "images/Azure Icon.png",
+        ".NET" => "images/NET.png",
+        "HTML" => "images/HTML.png",
+        "CSS" => "images/CSS.png",
+        "Github" => "images/Github Icon.png",
+        "Epic Online Services" => "images/Epic Games Icon.png",
+        "JavaScript" => "images/Javascript.webp",
+        "CMake" => "images/Cmake.png",
+        "C++" => "images/C+ Icon.png",
+        "Flutter" => "images/Flutter Icon.png",
+        "Dart" => "images/Dart Icon.webp",
+        "Unity" => "images/Unity Icon.webp",
+        "Google Cloud" => "images/Google Cloud.png",
+        "Document AI" => "images/Google Document AI.png",
+        "Blazor" => "images/Blazor Icon.png",
+        "Google AdMob" => "images/Google Ad Mob.webp",
+        "OpenCV" => "images/OpenCV Icon.png",
+        "Firebase" => "images/Firebase Icon.png",
+        "Xcode" => "images/Xcode Icon.webp",
+        "App Store" => "images/App Store Icon.png",
+        "React" => "images/React.webp",
+        "Excel" => "images/Excel.png",
+        _ => "icons/default.svg"
+    };
+
+    private class Game
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Thumbnail { get; set; }
+        public List<string> Tags { get; set; }
+        public string DetailsUrl { get; set; }
+        public string ButtonColor { get; set; }
+    }
+
+    private List<Game> allGames = new()
+    {
+       new Game
+        {
+            Title = "<span style='color:#911f1f;'>Castle Climbers</span>",
+            Description = $@"Castle Climbers is an infinite 2D platformer I developed as my first big coding project,
+            which spanned over the <span style='color:#911f1f; font-weight:bold;'>3 years</span>. It helped me properly
+            get to grips with Unity and C#. It was also my first project using a backend server through firebase, as I wanted
+            to add multiplayer functionality. Castle Climbers was also my first game to be
+            published on the app store through the use of Xcode. Currently, it has gained <span style='color:#911f1f; font-weight:bold;'>
+            {DownloadStats.CastleClimbersDownloads} total downloads</span>, and has a total
+            playtime of <span style='color:#911f1f; font-weight:bold;'>88.36 hours</span> from all users.",
+            Thumbnail = "images/Castle Climbers Background.png",
+            DetailsUrl = "/Games/CastleClimbers",
+            Tags = new() { "Unity", "C#", "Firebase", "JavaScript", "Xcode", "App Store" },
+            ButtonColor = "#911f1f"
+        },
+
+        new Game
+        {
+            Title = "Game for recovery of Stroke",
+            Description = $@"My first game for health was a project that I presented for my dissertation at the end of my Bachelor's degree. It achieved a <span style='color:#911f1f; font-weight:bold;'> first class grade (80%) </span> and was  <span style='color:#911f1f; font-weight:bold;'> praised by health
+            professionals </span> after presentation, due to its accurate choice of movements and thoughtful investigation into muscles in the hand that were affected by reduced motor control. The psychological
+            side was also praised, as the professionals stated that the choice of colour and the analysis system perfectly suit the act of rehabilitation. This project was also mentioned during my
+            graduation from my Master's Degree, and was praised for adapting gameplay for the real world.",
+            Thumbnail = "images/Hand Copy Cover.png",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C#", "Pycharm", "OpenCV" }
+        },
+        new Game
+        {
+            Title = "<span style='color:#41d5c3;'>Bucket Connect</span>",
+            Description = $@"Bucket Connect was my <span style='color:#41d5c3; font-weight:bold;'>first app developed in Flutter</span> after I expanded from mainly using Unity. It was published on the app store
+            and currently has <span style='color:#41d5c3; font-weight:bold;'>{DownloadStats.BucketConnectDownloads} total downloads</span>. It also made use of Firebase, and implemented a friends system, allowing people to connect and share their bucket lists. The app also included
+            the ability to publish global ideas, which others could use as inspiration, and download to their own account. This was paired with a backend server to keep the data up to date.",
+            Thumbnail = "images/Bucket Connect Web Cover.png",
+            DetailsUrl = "#",
+            Tags = new() { "Flutter", "Dart", "JavaScript", "Firebase", "Xcode", "App Store", "Google AdMob" },
+            ButtonColor = "#41d5c3"
+        },
+        new Game
+        {
+            Title = "<span style='color:#eda193;'>Girls Who Walk</span>",
+            Description = $@"Girls Who Walk was the first social media app I developed. It was originally developed in Unity, but was moved to Flutter and Dart for improved efficiency and aesthetics. It was made through the help of my girlfriend to help local girls find a social circle
+            where they felt comfortable and could make friends by organising activities around Newcastle. The app gained <span style='color:#eda193; font-weight:bold;'> {DownloadStats.GirlsWhoWalkDownloads} downloads </span> from users in Newcastle.",
+            Thumbnail = "images/Girls Who Walk Logo Phone.png",
+            DetailsUrl = "#",
+            Tags = new() { "Flutter", "Dart", "JavaScript", "Firebase", "Xcode", "App Store", "Google AdMob" },
+            ButtonColor = "#eda193"
+        },
+        new Game
+        {
+            Title = "<span style='color:#eda193;'>Girls Who Walk Web App</span>",
+            Description = $@"Newcastle.",
+            Thumbnail = "images/Girls Who Walk Website.png",
+            DetailsUrl = "#",
+            Tags = new() { "Blazor", ".NET", "HTML", "CSS", "Azure" },
+            ButtonColor = "#eda193"
+        },
+        new Game
+        {
+            Title = "<span style='color:#4169E1;'>Procedurally Generated 2D world</span>",
+            Description = $@"A 2D procedurally generated underwater world with advanced terrain generation, including the use of noise and cellular automata for caves and ores, as well as a detailed light system to simulate
+            the lights penetration through the water, terrain and cave systems. To enhance efficiency, the world loads through chunks, meaning the user has a smoother experience, and the world can be made bigger. The project
+            was originally a University submission, which achieved <span style='color:#4169E1; font-weight:bold;'> 79% </span>, and with further development has turned into a detailed 2D survival game.",
+            Thumbnail = "images/Cover.png",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C#", "Excel" },
+            ButtonColor = "#4169E1"
+        },
+        new Game
+        {
+            Title = "<span style='color:#999999;'>AI Receipt App</span>",
+            Description = $@"My first app utilising advanced AI functionality through <span style='color:#999999; font-weight:bold;'> Google Document AI </span> to deal with problems I have faced at the dinner table. It allowed users to scan the bill and sort the different items into piles, so it was obvious
+            who bought what, and showed what each person owed. The user interface was colourful and fun, and also allowed for the addition of a tip, which could either be split or paid in full.",
+            Thumbnail = "images/Receipt Table.webp",
+            DetailsUrl = "#",
+            Tags = new() { "Flutter", "Dart", "Google Cloud", "Document AI" },
+            ButtonColor = "#999999"
+        },
+         new Game
+        {
+            Title = "Game Recipe App",
+            Description = $@"This was a utility app I made to help me visualise the crafting recipies that I would use for my 2D underwater survival game. Its a simple project, but implements the same image functionality
+            as Unity, such as slicing images from big tilesets, so they were easily adaptable and usable. There were also different local saves and personalisation options to change the feel of the tool.",
+            Thumbnail = "images/Analysis 1.jpeg",
+            DetailsUrl = "#",
+            Tags = new() { "React", "Supabase" }
+        },
+        new Game
+        {
+            Title = "<span style='color:#af2229;'>Car Arcade Game</span>",
+            Description = "A 2D survival and crafting game set in a procedurally generated underwater world.",
+            Thumbnail = "images/Car Game.png",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C#" },
+            ButtonColor = "#af2229"
+        },
+        new Game
+        {
+            Title = "<span style='color:#8c3c00;'>Top Down Shooter</span>",
+            Description = $@"A top down shooter that was a project for University, which utilised procedurally generating rooms to create an infinite map to explore, with a minimap to track location.
+            It also featured complex AI enemies with state machines, as well as flocking, dynamic difficulty and complex physics. All these features enabled me to achieve a grade of <span style='color:#8c3c00; font-weight:bold;'>88% </span> on this assignment.",
+            Thumbnail = "images/Uni Game 1.png",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C#" },
+            ButtonColor = "#8c3c00"
+        },
+        new Game
+        {
+            Title = "<span style='color:#209f1a;'>Unity World</span>",
+            Description = $@"This was a University project that required us to make a 3D world in Unity with imported assets, shaders, advanced light sources, particles, weather systems and moving objects to bring
+            the environment to life, whilst also keeping the framerate and memory occupied low. I achieved a <span style='color:#209f1a; font-weight:bold;'> 70%</span>, and was highlighted towards the importance
+            of managing the efficiency to enhance playability.",
+            Thumbnail = "images/Uni Unity Scene.png",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C#" },
+            ButtonColor = "#209f1a"
+        },
+        new Game
+        {
+            Title = "<span style='color:#489db7;'>CMake World</span>",
+            Description = $@"This was a University project similar to the Unity world, but this was required to be completed in CMake. The project made use of shaders, heightmaps, moving objects, particle effects,
+            advanced lighting and object placement and texturing. For the project I got a grade of <span style='color:#489db7; font-weight:bold;'> 75% </span>.",
+            Thumbnail = "images/Scene.png",
+            DetailsUrl = "#",
+            Tags = new() { "CMake", "C++" },
+            ButtonColor = "#489db7"
+        },
+        new Game
+        {
+            Title = "Uni CMake Project",
+            Description = "86%",
+            Thumbnail = "images/Scene 2.png",
+            DetailsUrl = "#",
+            Tags = new() { "CMake", "C++" }
+        },
+        new Game
+        {
+            Title = "Uni Group Project",
+            Description = "72%",
+            Thumbnail = "images/Scene 2.png",
+            DetailsUrl = "#",
+            Tags = new() { "CMake", "C++", "Epic Online Services", "Github" }
+        },
+        new Game
+        {
+            Title = "Conway's Game of Life",
+            Description = "For a University project, I was required to recreate Conway's Game of Life, which simulated the lifetime of cells in a grid depending on their neighbours. Due to the accuracy of the program, and the evidence that "
+            + "it was able to regenerate all of the common structures from the game, I was given a grade of <span class='highlight'> 100%</span>.",
+            Thumbnail = "images/Scene 2.png",
+            DetailsUrl = "#",
+            Tags = new() { "C++" }
+        },
+
+
+
+        new Game
+        {
+            Title = "Music Tracker App",
+            Description = "A simple app that allows users to record what live music they have seen, so its easily comparible to others.",
+            Thumbnail = "images/GWW Icon.jpg",
+            DetailsUrl = "#",
+            Tags = new() { "Flutter", "Dart" }
+        },
+        new Game
+        {
+            Title = "<span style='color:#00efff;'>Interactive World Map</span>",
+            Description = "An interactive world map that was part of a larger project that highlighted the issues of polution and its effect on the planet and its inhabitants.",
+            Thumbnail = "images/World 1.png",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C#" },
+            ButtonColor = "#00efff"
+        },
+        new Game
+        {
+            Title = "<span style='color:#fc7025;'>Kenyon Dev Labs Website</span>",
+            Description = "A 2D survival and crafting game set in a procedurally generated underwater world.",
+            Thumbnail = "images/Web.png",
+            DetailsUrl = "#",
+            Tags = new() { "Blazor", ".NET", "HTML", "CSS" },
+            ButtonColor = "#fc7025"
+        },
+        new Game
+        {
+            Title = "2D platformer",
+            Description = $@"This was the first ever game I made, which was used as coursework for my A levels, which achieved an A* grade. It was a similar style game to Super Mario, and had multiple levels
+            and different obstacles and interactive elements. It helped me understand the core concepts of Unity, as well as the interface and its capabilities.",
+            Thumbnail = "images/GWW Icon.jpg",
+            DetailsUrl = "#",
+            Tags = new() { "Unity", "C++" }
+        },
+
+
+    };
+
+    private bool MatchesSelectedTags(Game game)
+    {
+        if (selectedTags.Count == 0)
+            return true;
+
+        return selectedTags.All(tag => game.Tags.Contains(tag));
+    }
+
+
+    private void HandleSelect(ChangeEventArgs e, string category)
+    {
+        var value = e.Value?.ToString();
+        if (string.IsNullOrWhiteSpace(value) ||
+            value == "Type" || value == "Language" || value == "Engine/Framework" || value == "Additional Tech")
+            return;
+
+        if (category == "Type")
+            return;
+
+        if (!selectedTags.Contains(value))
+            selectedTags.Add(value);
+    }
+
+    private Dictionary<string, List<string>> tagCategories = new()
+{
+    { "Language", new List<string> { "C#", "Pycharm", "JavaScript", "Lua" } },
+    { "Framework", new List<string> { "Unity", "Godot", "Unreal", "Blazor" } },
+    { "Tech", new List<string> { "Google Ad Mob", "SQLite", "Shader Graph", "WebGL" } },
+};
+
+    private bool showLanguageDropdown;
+    private string GetTagDisplayName(string tag) => tag; // Modify if you want nicer labels
+
+
+    private void RemoveTag(string tag)
+    {
+        selectedTags.Remove(tag);
+    }
+}

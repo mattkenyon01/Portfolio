@@ -12,7 +12,7 @@
         padding: 0;
         height: 100%;
         width: 102%;
-        overflow-x: hidden; /* ← Prevent horizontal scroll */
+        overflow-x: hidden;
         font-family: 'Segoe UI', sans-serif;
         background-color: #1e1e1e;
     }
@@ -23,17 +23,214 @@
     }
 
     .hero-section {
-        width: 100%; /* or fixed width */
-        padding-top: 56.25%; /* (9 / 16) * 100% = 56.25% height relative to width */
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
         background-image: url('Images/Website Cover.png');
         background-size: cover;
         background-position: 30% top;
         background-repeat: no-repeat;
     }
 
+    /* App Bar overlays hero-section */
+    .app-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 36px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        z-index: 10; /* above hero text */
+        margin-top: 8px;
+        justify-content: space-between;
+    }
 
-}
+        .app-bar .logo {
+            font-weight: 700;
+        }
+
+        .app-bar nav {
+            display: flex;
+            gap: 24px;
+        }
+
+            .app-bar nav a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                cursor: pointer;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+                .app-bar nav a:hover,
+                .app-bar nav a.active {
+                    background-color: #971d21; /* your deep red highlight */
+                    color: white;
+                }
+
+    .new-section {
+        background-color: #420f22;
+        width: 100%;
+        padding: 80px 20px; /* Adds 80px space above and below, 20px left/right */
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: white;
+        font-size: 1.5rem;
+        flex-direction: column;
+    }
+
+
+        .new-section h2 {
+            font-size: 2.5rem; /* or 3rem if you want it even bigger */
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+
+        .new-section p, .new-section ul {
+            max-width: 700px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .new-section p {
+            text-align: center;
+            margin: 0 0 16px; /* remove auto side margins */
+        }
+
+    .image-section {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        background-color: #db6044;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .background-img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .overlay-content {
+        z-index: 2;
+        color: white;
+        text-align: center;
+        max-width: 700px;
+        padding: 0px ;
+    }
+
+        .overlay-content h2 {
+            font-size: 2.5rem;
+            margin: -200px 0 16px; /* was 32px 0 16px */
+            font-weight: 700;
+        }
+
+        .overlay-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: ;
+        }
+
+    .image-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .image-container img {
+        width: 300px;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .small-image img {
+        width: 200px;
+    }
+
+    .gallery-button {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .gallery-button button {
+            background-color: #420f22;
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .gallery-button button:hover {
+                background-color: #c02d2d;
+            }
 
 </style>
 
-<div class="hero-section"></div>
+
+<div class="hero-section">
+    <div class="app-bar">
+        <div class="logo">Matthew Kenyon</div>
+        <nav>
+            <a href="#games" class="active">Games</a>
+            <a href="#apps">Apps</a>
+            <a href="#about">About</a>
+        </nav>
+    </div>
+</div>
+
+<div class="new-section">
+    <h2>Welcome to My Programming Portfolio</h2>
+    <p>
+        Hi, I'm Matthew Kenyon — a passionate software developer specializing in game development, procedural generation, and full-stack projects. Explore my work below to see my skills and projects in action.
+    </p>
+</div>
+
+<div class="image-section">
+    <img src="/Images/Transition Screen Top.png" alt="Castle Climbers Banner" class="background-img" />
+
+    <div class="overlay-content">
+        <h2>My Released Projects</h2>
+        <p>
+            Check out the projects that I have released publicly, with some being quite successful and popular,
+            achieving over 500+ downloads.
+        </p>
+
+        <div class="image-row">
+            <div class="image-container small-image">
+                <img src="/Images/Bucket Connect Screenshot.png" alt="Screenshot 1" />
+            </div>
+            <div class="image-container">
+                <img src="/Images/GWW image 1.png" alt="Screenshot 2" />
+            </div>
+            <div class="image-container small-image">
+                <img src="/Images/GWW image 2.png" alt="Screenshot 3" />
+            </div>
+        </div>
+
+        <div class="gallery-button">
+            <button>View Project</button>
+        </div>
+    </div>
+</div>
