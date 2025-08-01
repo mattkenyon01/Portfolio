@@ -13,6 +13,7 @@
         "C#" => "images/C Icon.png",
         "c" => "images/C Icon.png",
         "Supabase" => "images/Supabase.png",
+        "Azure" => "images/Azure Icon.png",
         ".NET" => "images/NET.png",
         "HTML" => "images/HTML.png",
         "CSS" => "images/CSS.png",
@@ -81,8 +82,7 @@
             Title = "<span style='color:#41d5c3;'>Bucket Connect</span>",
             Description = $@"Bucket Connect was my <span style='color:#41d5c3; font-weight:bold;'>first app developed in Flutter</span> after I expanded from mainly using Unity. It was published on the app store
             and currently has <span style='color:#41d5c3; font-weight:bold;'>{DownloadStats.BucketConnectDownloads} total downloads</span>. It also made use of Firebase, and implemented a friends system, allowing people to connect and share their bucket lists. The app also included 
-            the ability to publish global ideas, which others could use as inspiration, and download to their own account. This was paired with a backend server to keep the data up to date. There was also an achievement system 
-            to encourage people to keep using the app, and to increase retention.",
+            the ability to publish global ideas, which others could use as inspiration, and download to their own account. This was paired with a backend server to keep the data up to date.",
             Thumbnail = "images/Bucket Connect Web Cover.png",
             DetailsUrl = "#",
             Tags = new() { "Flutter", "Dart", "JavaScript", "Firebase", "Xcode", "App Store", "Google AdMob" },
@@ -100,11 +100,22 @@
         },
         new Game
         {
+            Title = "<span style='color:#eda193;'>Girls Who Walk Web App</span>",
+            Description = $@"Newcastle.",
+            Thumbnail = "images/Girls Who Walk Website.png",
+            DetailsUrl = "#",
+            Tags = new() { "Blazor", ".NET", "HTML", "CSS", "Azure" },
+            ButtonColor = "#eda193"
+        },
+        new Game
+        {
             Title = "<span style='color:#4169E1;'>Procedurally Generated 2D world</span>",
-            Description = "A 2D survival and crafting game set in a procedurally generated underwater world. 79%. Based upon terraria and minecraft. Big world with chunk loading and efficient gameplay.",
+            Description = $@"A 2D procedurally generated underwater world with advanced terrain generation, including the use of noise and cellular automata for caves and ores, as well as a detailed light system to simulate
+            the lights penetration through the water, terrain and cave systems. To enhance efficiency, the world loads through chunks, meaning the user has a smoother experience, and the world can be made bigger. The project
+            was originally a University submission, which achieved <span style='color:#4169E1; font-weight:bold;'> 79% </span>, and with further development has turned into a detailed 2D survival game.",
             Thumbnail = "images/Cover.png",
             DetailsUrl = "#",
-            Tags = new() { "Unity", "C++", "Excel" },
+            Tags = new() { "Unity", "C#", "Excel" },
             ButtonColor = "#4169E1"
         },
         new Game
@@ -120,7 +131,8 @@
          new Game
         {
             Title = "Game Recipe App",
-            Description = "A 2D survival and crafting game set in a procedurally generated underwater world. Allowed slicing to work along Unity functionality",
+            Description = $@"This was a utility app I made to help me visualise the crafting recipies that I would use for my 2D underwater survival game. Its a simple project, but implements the same image functionality
+            as Unity, such as slicing images from big tilesets, so they were easily adaptable and usable. There were also different local saves and personalisation options to change the feel of the tool.",
             Thumbnail = "images/Analysis 1.jpeg",
             DetailsUrl = "#",
             Tags = new() { "React", "Supabase" }
@@ -147,7 +159,9 @@
         new Game
         {
             Title = "<span style='color:#209f1a;'>Unity World</span>",
-            Description = "70% - Efficiency is important",
+            Description = $@"This was a University project that required us to make a 3D world in Unity with imported assets, shaders, advanced light sources, particles, weather systems and moving objects to bring
+            the environment to life, whilst also keeping the framerate and memory occupied low. I achieved a <span style='color:#209f1a; font-weight:bold;'> 70%</span>, and was highlighted towards the importance
+            of managing the efficiency to enhance playability.",
             Thumbnail = "images/Uni Unity Scene.png",
             DetailsUrl = "#",
             Tags = new() { "Unity", "C#" },
@@ -156,7 +170,8 @@
         new Game
         {
             Title = "<span style='color:#489db7;'>CMake World</span>",
-            Description = "75%",
+            Description = $@"This was a University project similar to the Unity world, but this was required to be completed in CMake. The project made use of shaders, heightmaps, moving objects, particle effects,
+            advanced lighting and object placement and texturing. For the project I got a grade of <span style='color:#489db7; font-weight:bold;'> 75% </span>.",
             Thumbnail = "images/Scene.png",
             DetailsUrl = "#",
             Tags = new() { "CMake", "C++" },
@@ -219,7 +234,8 @@
         new Game
         {
             Title = "2D platformer",
-            Description = "A 2D survival and crafting game set in a procedurally generated underwater world.",
+            Description = $@"This was the first ever game I made, which was used as coursework for my A levels, which achieved an A* grade. It was a similar style game to Super Mario, and had multiple levels
+            and different obstacles and interactive elements. It helped me understand the core concepts of Unity, as well as the interface and its capabilities.",
             Thumbnail = "images/GWW Icon.jpg",
             DetailsUrl = "#",
             Tags = new() { "Unity", "C++" }

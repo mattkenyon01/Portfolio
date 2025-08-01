@@ -1,136 +1,39 @@
 ﻿@page "/"
 
 <style>
-    body, html {
-        margin: 0;
+    * {
+        margin: -8px;
         padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: -8px;
+        padding: 0;
+        height: 100%;
+        width: 102%;
+        overflow-x: hidden; /* ← Prevent horizontal scroll */
         font-family: 'Segoe UI', sans-serif;
         background-color: #1e1e1e;
-        color: white;
     }
 
-    .navbar {
+    body {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 32px;
-        background-color: #1e1e1e;
+        flex-direction: column;
     }
 
-        .navbar .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ffa500;
-        }
-
-        .navbar .menu {
-            display: flex;
-            gap: 24px;
-        }
-
-            .navbar .menu a {
-                text-decoration: none;
-                color: white;
-                font-weight: 500;
-            }
-
-                .navbar .menu a:hover {
-                    color: #ffa500;
-                }
-
-    .hero {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 64px;
+    .hero-section {
+        width: 100%; /* or fixed width */
+        padding-top: 56.25%; /* (9 / 16) * 100% = 56.25% height relative to width */
+        background-image: url('Images/Website Cover.png');
+        background-size: cover;
+        background-position: 30% top;
+        background-repeat: no-repeat;
     }
 
-    .hero-text {
-        max-width: 50%;
-    }
 
-        .hero-text h1 {
-            font-size: 3rem;
-            margin-bottom: 0;
-        }
+}
 
-    .highlight {
-        color: #ffa500;
-    }
-
-    .hero-text p {
-        color: #d3d3d3;
-        margin-top: 16px;
-        line-height: 1.6;
-    }
-
-    .hero-buttons {
-        margin-top: 24px;
-        display: flex;
-        gap: 16px;
-    }
-
-    .btn {
-        padding: 12px 20px;
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-        border-radius: 6px;
-        font-size: 1rem;
-    }
-
-    .btn-primary {
-        background-color: #ffa500;
-        color: black;
-    }
-
-    .hero-image {
-        position: relative;
-        width: 350px;
-        height: 350px;
-        clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
-        background: #ffa500;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 12px;
-            clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
-        }
 </style>
 
-<!-- NAVIGATION -->
-<div class="navbar">
-    <div class="logo">MATT</div>
-    <div class="menu">
-        <a href="#">Home</a>
-        <a href="/about">About</a>
-        <a href="/games">Projects</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact</a>
-    </div>
-</div>
-
-<!-- HERO SECTION -->
-<div class="hero">
-    <!-- Left Text -->
-    <div class="hero-text">
-        <h1>Hi, I'm Matt Kenyon<br /><span class="highlight">Software and game dev</span></h1>
-        <p>I'm a creative programmer with a strong focus on procedural generation, multiplayer systems, and interactive experiences. I aim to create projects that approach real world problems that I and other people face day to day.</p>
-        <div class="hero-buttons">
-            <a href="/Games" class="btn btn-primary">View Projects</a>
-        </div>
-
-    </div>
-
-    <!-- Right Image -->
-    <div class="hero-image">
-        <img src="matt-photo.png" alt="Matt Kenyon Photo" />
-    </div>
-</div>
+<div class="hero-section"></div>
