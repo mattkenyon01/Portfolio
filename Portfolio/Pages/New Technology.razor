@@ -1,0 +1,367 @@
+﻿@page "/TechnologyPlus"
+
+<style>
+    * {
+        margin: -8px;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: -8px;
+        padding: 0;
+        height: 100%;
+        width: 102%;
+        overflow-x: hidden;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #1f1a4d;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-section {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        background-image: url('Images/Purple Technology Cover.png');
+        background-size: cover;
+        background-position: 30% top;
+        background-repeat: no-repeat;
+    }
+
+    /* App Bar overlays hero-section */
+    .app-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 36px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        z-index: 10; /* above hero text */
+        margin-top: 8px;
+        justify-content: space-between;
+    }
+
+        .app-bar .logo {
+            font-weight: 700;
+        }
+
+        .app-bar nav {
+            display: flex;
+            gap: 24px;
+        }
+
+            .app-bar nav a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                cursor: pointer;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+                .app-bar nav a:hover,
+                .app-bar nav a.active {
+                    background-color: #971d21; /* your deep red highlight */
+                    color: white;
+                }
+
+    .new-section {
+        width: 100%;
+        padding: 80px 20px; /* Adds 80px space above and below, 20px left/right */
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: white;
+        font-size: 1.5rem;
+        flex-direction: column;
+    }
+
+
+        .new-section h2 {
+            font-size: 2.5rem; /* or 3rem if you want it even bigger */
+            margin-bottom: 16px;
+            font-weight: 700;
+            color: #fff4dd;
+        }
+
+
+        .new-section p, .new-section ul {
+            max-width: 700px;
+            line-height: 1.6;
+            font-weight: 400;
+            color: #fff4dd;
+        }
+
+        .new-section p {
+            text-align: center;
+            margin: 0 0 16px; /* remove auto side margins */
+        }
+
+    .image-section {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        background-color: #db6044;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .background-img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .overlay-content {
+        z-index: 2;
+        color: white;
+        text-align: center;
+        max-width: 700px;
+        padding: 0px ;
+    }
+
+        .overlay-content h2 {
+            font-size: 2.5rem;
+            margin: -200px 0 16px; /* was 32px 0 16px */
+            font-weight: 700;
+        }
+
+        .overlay-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+    .image-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .image-container img {
+        width: 300px;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .small-image img {
+        width: 200px;
+    }
+
+    .tech-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 100px;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+        text-align: center;
+        justify-content: center; /* Center items when there are few */
+    }
+
+    .tech-box {
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+    }
+
+        .tech-box img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+   
+
+</style>
+
+
+<div class="hero-section">
+    <div class="app-bar">
+        <div class="logo">Matthew Kenyon</div>
+        <nav>
+            <a href="#games" class="active">Games</a>
+            <a href="#apps">Apps</a>
+            <a href="#about">About</a>
+        </nav>
+    </div>
+</div>
+
+<div class="new-section">
+    <h2>Games I've Developed</h2>
+    <p>
+        From pixel-perfect platformers to procedurally generated worlds, these games showcase my passion for gameplay systems, design, and technical depth. Each project is built with performance, polish, and player experience in mind.
+    </p>
+</div>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/C+ Icon.png" alt="Unity">
+        <h4>C++</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/C Icon.png" alt="Flutter">
+        <h4>C#</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Solo C Icon.png" alt="C++">
+        <h4>C</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Dart Icon.webp" alt="C++">
+        <h4>Dart</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+
+    <div class="tech-box">
+        <img src="images/HTML.png" alt="Blazor">
+        <h4>HTML</h4>
+        <p>Creating modern web applications with Blazor and .NET.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/CSS.png" alt="Unity">
+        <h4>CSS</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Javascript Icon.webp" alt="Flutter">
+        <h4>Javascript</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/PostgreSQL.png" alt="PostgreSQL">
+        <h4>PostgreSQL</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/Unity Icon.webp" alt="Unity">
+        <h4>Unity</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Flutter Icon.png" alt="Flutter">
+        <h4>Flutter</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/React.webp" alt="React">
+        <h4>React</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Cmake.png" alt="C++">
+        <h4>Cmake</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Blazor Icon.png" alt="Blazor">
+        <h4>Blazor</h4>
+        <p>Creating modern web applications with Blazor and .NET.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Net.png" alt="Unity">
+        <h4>.NET</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/Google Cloud.png" alt="Unity">
+        <h4>Google Cloud</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Azure Icon.png" alt="Flutter">
+        <h4>Azure</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/OpenCV Icon.png" alt="C++">
+        <h4>OpenCV</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Google Document AI.png" alt="Blazor">
+        <h4>Document AI</h4>
+        <p>Creating modern web applications with Blazor and .NET.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Firebase Icon.png" alt="Unity">
+        <h4>Firebase</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Supabase.png" alt="Supabase">
+        <h4>Supabase</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Epic Games Icon.png" alt="Unity">
+        <h4>Epic Online Services</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/Illustrator Logo.png" alt="Unity">
+        <h4>Adobe Illustrator</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Photoshop.png" alt="Flutter">
+        <h4>Adobe Photoshop</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Premier Pro.png" alt="C++">
+        <h4>Adobe Premier Pro</h4>
+        <p>Developing high-performance applications with C++ and CMake.</p>
+    </div>
+</section>
+
+<section class="tech-section">
+    <div class="tech-box">
+        <img src="images/App Store Icon.png" alt="Unity">
+        <h4>C++</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Xcode Icon.webp" alt="Flutter">
+        <h4>C#</h4>
+        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+    </div>
+    <div class="tech-box">
+        <img src="images/Github Icon.png" alt="Unity">
+        <h4>Github</h4>
+        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    </div>
+</section>
+
