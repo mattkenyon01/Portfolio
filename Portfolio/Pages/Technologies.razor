@@ -1,280 +1,530 @@
 ﻿@page "/Technologies"
+@using Portfolio.Utilities
 
-@* Blazor component *@
-Include the Design apps in here - illustrator, photoshop, premier pro
+<!-- Layout & App Bar (Section 1) -->
 <style>
+    /* Page & global typography */
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #0A0A0A;
         margin: 0;
         padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #420f22;
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+        text-align: center;
     }
 
-    header {
-        background: linear-gradient(to right, #FF7E00, #FFA500);
-        color: white;
-        padding: 0 40px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* App bar */
+    .app-bar {
+        width: 100%;
+        height: 60px;
+        background-color: #2e0b18;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
         z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        height: 80px;
-        font-size: 20px;
     }
 
-    nav {
-        display: flex;
-        align-items: center;
-    }
+        .app-bar .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
 
-        nav ul {
-            list-style: none;
+        .app-bar nav {
             display: flex;
             gap: 20px;
-            align-items: center;
-            margin: 0;
-            padding: 0;
         }
 
-            nav ul li a {
+            .app-bar nav a {
+                color: white;
                 text-decoration: none;
-                color: #121212;
-                font-weight: bold;
-                position: relative;
-                padding: 15px 0;
-                display: inline-block;
-                font-size: 22px;
+                font-weight: 600;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
             }
 
-                nav ul li a::after {
-                    content: '';
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    width: 0;
-                    height: 2px;
-                    background-color: yellow;
-                    transition: width 0.3s ease-in-out;
+                .app-bar nav a:hover {
+                    background-color: #971d21;
                 }
 
-                nav ul li a:hover::after {
-                    width: 100%;
-                }
-
-    .description {
-        text-align: center;
-        padding: 40px;
-        background-color: #121212;
-        font-size: 20px;
-        line-height: 1.6;
-        max-width: 1000px;
-        margin: 80px auto;
-        color: white;
+    /* Shared content elements used in hero sections */
+    img.main-banner {
+        width: 95%;
+        max-width: 1200px;
+        height: auto;
+        margin: 80px 0 20px 0;
+        border-radius: 20px;
     }
 
-    .tech-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+    p.description {
+        font-size: 1.2rem;
+        font-weight: 400;
+        max-width: 800px;
+        width: 100%;
+        margin: 12px auto 30px auto;
+        line-height: 1.6;
+        padding-inline: 20px;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0 auto;
+        max-width: 800px;
+        width: 100%;
+        padding-inline: 20px;
+        box-sizing: border-box;
+    }
+
+    hr.section-divider {
+        border: none;
+        height: 2px;
+        width: 100%;
         max-width: 1000px;
         margin: 40px auto;
-        padding: 20px;
+        background: #e7571d;
+        border-radius: 2px;
+        padding-inline: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Grid + Items */
+    .tech-category {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-top: 60px;
+        margin-bottom: 20px;
+        color: #ff944d;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        max-width: 1000px;
+        margin: 20px auto 60px auto;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .tech-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        justify-content: center; /* Center items when there are few */
-    }
-
-    .tech-box {
-        background: #121212;
+        background-color: #2e0b18;
         padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        color: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
-        .tech-box img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 10px;
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
         }
 
+        .tech-item h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .tech-item img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 12px;
+        }
+
+        .tech-item p {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+    /* Skill meter */
+    .skill-meter {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        width: 100%;
+        height: 14px;
+        padding: 4px;
+        background: #4a1625;
+        border-radius: 999px;
+        margin-top: 10px;
+        box-sizing: border-box;
+    }
+
+        .skill-meter .seg {
+            border-radius: 999px;
+            background: rgba(255,255,255,0.12);
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+            .skill-meter .seg.filled {
+                background: linear-gradient(90deg, #e7571d, #ff944d);
+            }
+
+        .skill-meter:hover .seg.filled {
+            filter: brightness(1.05);
+        }
+
+    .skill-caption {
+        margin-top: 6px;
+        font-size: 0.95rem;
+        opacity: 0.9;
+    }
+
+    /* Responsive */
+    @@media (max-width: 900px) {
+        .tech-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    }
+
+    @@media (max-width: 600px) {
+        .tech-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
 </style>
 
-<header>
+<div class="app-bar">
+    <div class="logo">Matthew Kenyon</div>
     <nav>
-        <ul>
-            <li><NavLink href="/" class="hover:text-yellow-300 transition duration-300">Home</NavLink></li>
-            <li><NavLink href="/about" class="hover:text-yellow-300 transition duration-300">About</NavLink></li>
-            <li><NavLink href="/services" class="hover:text-yellow-300 transition duration-300">Services</NavLink></li>
-            <li><NavLink href="/contact" class="hover:text-yellow-300 transition duration-300">Contact</NavLink></li>
-        </ul>
+        <a href="#games">Games</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
     </nav>
-</header>
+</div>
 
-<section class="description">
-    <h3>About Me</h3>
-    <p>
-        I've been coding for seven years, working on all sorts of projects with different
-        programming languages and technologies. I started out focusing on Unity but recently
-        branched out to explore other languages, like Flutter with Dart and C++ with CMake, to
-        expand my programming knowledge.
-    </p>
-</section>
+<!-- Section 1: Hero -->
+<img src="Images/Technology Cover.png" alt="Banner Image" class="main-banner" />
+<h1 id="about">Technologies</h1>
+<p class="description">
+    I’m a passionate software developer dedicated to creating intuitive, impactful programs that assist people.
+    <br /><br />
+    I attended Newcastle University, where I was awarded the Degree of Masters of Computing with First Class Honours in
+    Computer Science (Game Engineering).
+</p>
 
-<section class="tech-section">
-    <div class="tech-box">
-        <img src="images/C+ Icon.png" alt="Unity">
-        <h4>C++</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/C Icon.png" alt="Flutter">
-        <h4>C#</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Solo C Icon.png" alt="C++">
-        <h4>C</h4>
-        <p>Developing high-performance applications with C++ and CMake.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Dart Icon.webp" alt="C++">
-        <h4>Dart</h4>
-        <p>Developing high-performance applications with C++ and CMake.</p>
+<hr class="section-divider" />
+
+<!-- Languages -->
+<h2 class="tech-category">Languages</h2>
+<div class="tech-grid">
+    <!-- C# -->
+    <div class="tech-item">
+        <h2>C#</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" />
+        <p>Primary language for games and .NET applications.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span>
+        </div>
+        <p class="skill-caption">Expert</p>
     </div>
 
-    <div class="tech-box">
-        <img src="images/HTML.png" alt="Blazor">
-        <h4>HTML</h4>
-        <p>Creating modern web applications with Blazor and .NET.</p>
+    <!-- C++ -->
+    <div class="tech-item">
+        <h2>C++</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" />
+        <p>High-performance language used in systems programming and game engines.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
     </div>
-    <div class="tech-box">
-        <img src="images/CSS.png" alt="Unity">
-        <h4>CSS</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Javascript Icon.webp" alt="Flutter">
-        <h4>Javascript</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/PostgreSQL.png" alt="PostgreSQL">
-        <h4>PostgreSQL</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-</section>
 
-<section class="tech-section">
-    <div class="tech-box">
-        <img src="images/Unity Icon.webp" alt="Unity">
-        <h4>Unity</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    <!-- C -->
+    <div class="tech-item">
+        <h2>C</h2>
+        <img src="https://img.icons8.com/?size=512&id=40670&format=png" alt="C Icon (Hexagon)" />
+        <p>Low-level programming language used in operating systems, embedded systems, and high-performance software.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
     </div>
-    <div class="tech-box">
-        <img src="images/Flutter Icon.png" alt="Flutter">
-        <h4>Flutter</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/React.webp" alt="React">
-        <h4>React</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Cmake.png" alt="C++">
-        <h4>Cmake</h4>
-        <p>Developing high-performance applications with C++ and CMake.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Blazor Icon.png" alt="Blazor">
-        <h4>Blazor</h4>
-        <p>Creating modern web applications with Blazor and .NET.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Net.png" alt="Unity">
-        <h4>.NET</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    
-</section>
 
-<section class="tech-section">
-    <div class="tech-box">
-        <img src="images/Google Cloud.png" alt="Unity">
-        <h4>Google Cloud</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Azure Icon.png" alt="Flutter">
-        <h4>Azure</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/OpenCV Icon.png" alt="C++">
-        <h4>OpenCV</h4>
-        <p>Developing high-performance applications with C++ and CMake.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Google Document AI.png" alt="Blazor">
-        <h4>Document AI</h4>
-        <p>Creating modern web applications with Blazor and .NET.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Firebase Icon.png" alt="Unity">
-        <h4>Firebase</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Supabase.png" alt="Supabase">
-        <h4>Supabase</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Epic Games Icon.png" alt="Unity">
-        <h4>Epic Online Services</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
-    </div>
-    
-</section>
 
-<section class="tech-section">
-    <div class="tech-box">
-        <img src="images/Illustrator Logo.png" alt="Unity">
-        <h4>Adobe Illustrator</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    <!-- Dart -->
+    <div class="tech-item">
+        <h2>Dart</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dart/dart-original.svg" />
+        <p>Language for building Flutter-based mobile apps.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
     </div>
-    <div class="tech-box">
-        <img src="images/Photoshop.png" alt="Flutter">
-        <h4>Adobe Photoshop</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
-    </div>
-    <div class="tech-box">
-        <img src="images/Premier Pro.png" alt="C++">
-        <h4>Adobe Premier Pro</h4>
-        <p>Developing high-performance applications with C++ and CMake.</p>
-    </div>
-</section>
 
-<section class="tech-section">
-    <div class="tech-box">
-        <img src="images/App Store Icon.png" alt="Unity">
-        <h4>C++</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+    <!-- JavaScript -->
+    <div class="tech-item">
+        <h2>JavaScript</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" />
+        <p>For interactive websites and dynamic web apps.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
     </div>
-    <div class="tech-box">
-        <img src="images/Xcode Icon.webp" alt="Flutter">
-        <h4>C#</h4>
-        <p>Building cross-platform mobile applications using Flutter and Dart.</p>
+</div>
+
+<!-- Frameworks & Engines -->
+<h2 class="tech-category">Frameworks & Engines</h2>
+<div class="tech-grid">
+    <div class="tech-item">
+        <h2>Unity</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/unity/unity-original.svg" />
+        <p>Game engine for immersive 2D & 3D experiences.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span></div>
+        <p class="skill-caption">Expert</p>
     </div>
-    <div class="tech-box">
-        <img src="images/Github Icon.png" alt="Unity">
-        <h4>Github</h4>
-        <p>Experienced in developing games and interactive applications using Unity and C#.</p>
+
+    <div class="tech-item">
+        <h2>Flutter</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/flutter/flutter-original.svg" />
+        <p>Cross-platform framework for modern mobile apps.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span></div>
+        <p class="skill-caption">Advanced</p>
     </div>
-</section>
+
+    <!-- React -->
+    <div class="tech-item">
+        <h2>React</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React Icon" />
+        <p>JavaScript library for building fast, component-based user interfaces.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+
+    <div class="tech-item">
+        <h2>Blazor</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Blazor.png" />
+        <p>C# framework for interactive Razor-based web apps.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span></div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+    <!-- Epic Games -->
+    <div class="tech-item">
+        <h2>Epic Games</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo.svg" alt="Epic Games Logo" />
+        <p>Publisher and creator of Unreal Engine, form for 3D games, simulations, and interactive experiences.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+</div>
+
+<!-- Cloud & Backend -->
+<h2 class="tech-category">Cloud & Backend</h2>
+<div class="tech-grid">
+    <div class="tech-item">
+        <h2>Firebase</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg" />
+        <p>Realtime database, hosting, and authentication.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span></div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+    <div class="tech-item">
+        <h2>Azure</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/azure/azure-original.svg" />
+        <p>Cloud platform for deploying and scaling applications.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span></div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <div class="tech-item">
+        <h2>.NET</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dot-net/dot-net-original.svg" />
+        <p>Framework for desktop, web, and cloud applications.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span></div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+    <!-- Google Cloud -->
+    <div class="tech-item">
+        <h2>Google Cloud</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/googlecloud/googlecloud-original.svg" />
+        <p>Cloud platform for hosting, storage, AI services, and scalable apps.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <!-- Supabase -->
+    <div class="tech-item">
+        <h2>Supabase</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg" alt="Supabase Icon" />
+        <p>Open-source backend-as-a-service providing authentication, storage, and PostgreSQL database APIs.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+
+</div>
+
+<!-- Tools -->
+<h2 class="tech-category">Tools</h2>
+<div class="tech-grid">
+    <div class="tech-item">
+        <h2>HTML & CSS</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" />
+        <p>Core building blocks of websites with responsive styling.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span></div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+    <div class="tech-item">
+        <h2>Excel</h2>
+        <img src="https://img.icons8.com/color/96/microsoft-excel-2019--v1.png" />
+        <p>Data analysis and visualization for planning and research.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span></div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <div class="tech-item">
+        <h2>Xcode</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/xcode/xcode-original.svg" />
+        <p>IDE for building, testing, and deploying iOS apps.</p>
+        <div class="skill-meter"><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span></div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <!-- CMake -->
+    <div class="tech-item">
+        <h2>CMake</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cmake/cmake-original.svg" />
+        <p>Cross-platform build system for managing compilation workflows.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Intermediate</p>
+    </div>
+
+    <!-- Adobe Illustrator -->
+    <div class="tech-item">
+        <h2>Adobe Illustrator</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg" alt="Illustrator Icon" />
+        <p>Vector graphics editor used for creating logos, icons, and design assets.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <!-- Adobe Photoshop -->
+    <div class="tech-item">
+        <h2>Adobe Photoshop</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Photoshop_CC_icon.png" alt="Photoshop Icon" />
+        <p>Industry-standard software for photo editing, digital art, and textures.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+    <!-- Adobe Premiere Pro -->
+    <div class="tech-item">
+        <h2>Adobe Premiere Pro</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/premierepro/premierepro-original.svg" alt="Premiere Pro Icon" />
+        <p>Professional video editing software for trailers, gameplay clips, and promotional content.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <!-- GitHub -->
+    <div class="tech-item">
+        <h2>GitHub</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub Icon" />
+        <p>Version control and collaboration platform for hosting, reviewing, and managing code repositories.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+    <!-- Apple App Store -->
+    <div class="tech-item">
+        <h2>Apple App Store</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" alt="Apple App Store Icon" />
+        <p>Platform for distributing and monetizing iOS applications.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <!-- Google Play Store -->
+    <div class="tech-item">
+        <h2>Google Play Store</h2>
+        <img src="@IconRef.GetIcon("csharp")" alt="C# Icon" />
+
+        <p>Primary marketplace for distributing Android applications worldwide.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Advanced</p>
+    </div>
+
+    <!-- PyCharm -->
+    <div class="tech-item">
+        <h2>PyCharm</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pycharm/pycharm-original.svg" alt="PyCharm Icon" />
+        <p>JetBrains IDE used for professional Python development, debugging, and project management.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Proficient</p>
+    </div>
+
+    <!-- Python -->
+    <div class="tech-item">
+        <h2>Python</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python Icon" />
+        <p>Versatile programming language used for automation, scripting, AI/ML, and backend development.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span>
+        </div>
+        <p class="skill-caption">Expert</p>
+    </div>
+    <!-- OpenCV -->
+    <div class="tech-item">
+        <h2>OpenCV</h2>
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/opencv/opencv-original.svg" alt="OpenCV Icon" />
+        <p>Open-source computer vision and machine learning library used for real-time image and video processing.</p>
+        <div class="skill-meter">
+            <span class="seg filled"></span><span class="seg filled"></span><span class="seg filled"></span><span class="seg"></span><span class="seg"></span>
+        </div>
+        <p class="skill-caption">Intermediate</p>
+    </div>
+
+
+</div>

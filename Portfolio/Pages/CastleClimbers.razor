@@ -1,272 +1,124 @@
 ﻿@page "/Games/CastleClimbers"
 
+<!-- Layout & App Bar (Section 1) -->
 <style>
-    body, html {
+    /* Page & global typography */
+    body {
         margin: 0;
         padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #420f22;
         font-family: 'Segoe UI', sans-serif;
-        background-color: #1e1e1e;
         color: white;
+        text-align: center;
     }
 
-    .navbar {
+    /* App bar */
+    .app-bar {
+        width: 100%;
+        height: 60px;
+        background-color: #2e0b18;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px 32px;
-        background-color: #1e1e1e;
-        z-index: 10;
-        position: relative;
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
     }
 
-        .navbar .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ffa500;
+        .app-bar .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
         }
 
-        .navbar .menu {
+        .app-bar nav {
             display: flex;
-            gap: 24px;
+            gap: 20px;
         }
 
-            .navbar .menu a {
-                text-decoration: none;
+            .app-bar nav a {
                 color: white;
-                font-weight: 500;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
             }
 
-                .navbar .menu a:hover {
-                    color: #ffa500;
+                .app-bar nav a:hover {
+                    background-color: #971d21;
                 }
 
-    .hero-banner {
-        position: relative;
-        width: 100%;
-        height: 50vh;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        overflow: hidden;
-        text-align: left;
-        padding: 0 32px;
-        box-sizing: border-box;
-        background-color: #1e1e1e;
+    /* Shared content elements used in hero sections */
+    img.main-banner {
+        width: 95%;
+        max-width: 1200px;
+        height: auto;
+        margin: 80px 0 20px 0; /* space for fixed app bar */
+        border-radius: 20px;
     }
 
-    .hero-banner-image-wrapper {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        width: 50%;
-        overflow: hidden;
-        z-index: 0;
-    }
-
-    .hero-banner-image {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-
-    .hero-banner-image-wrapper::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to left, transparent 0%, #1e1e1e 100%);
-        z-index: 1;
-    }
-
-
-    .hero-banner-text {
-        position: relative;
-        z-index: 2;
-        max-width: 50%;
-        padding: 24px;
-        font-weight: bold;
-        color: white;
-        font-size: clamp(1.5rem, 5vw, 2.5rem);
-    }
-
-    .section {
-        display: flex;
-        flex-direction: column;
-        padding: 64px 32px;
-        gap: 24px;
-        text-align: left;
-    }
-
-        .section h2 {
-            font-size: 2.5rem;
-            color: #ffa500;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-    .section-content {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 40px;
-        flex-wrap: wrap;
-    }
-
-        .section-content p {
-            font-size: 1.2rem;
-            color: #d3d3d3;
-            line-height: 1.6;
-            max-width: 600px;
-            flex: 1;
-        }
-
-        .section-content img {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            border-radius: 12px;
-            flex: 1;
-        }
-
-    .donut-chart-container {
-        position: relative;
-        width: 300px;
-        height: 300px;
-        flex-shrink: 0;
-    }
-
-        .donut-chart-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-    .donut-chart-center-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    p.description {
         font-size: 1.2rem;
-        color: white;
-        text-align: center;
-        pointer-events: none;
+        font-weight: 400;
+        max-width: 800px;
+        width: 100%;
+        margin: 12px auto 30px auto;
+        line-height: 1.6;
+        padding-inline: 20px; /* side padding */
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0 auto;
+        max-width: 800px;
+        width: 100%;
+        padding-inline: 20px; /* keep the title consistent */
+        box-sizing: border-box;
+    }
+
+    /* Divider between sections */
+    hr.section-divider {
+        border: none;
+        height: 2px;
+        width: 100%;
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #e7571d;
+        border-radius: 2px;
+        padding-inline: 20px; /* optional gutters */
+        box-sizing: border-box;
     }
 </style>
 
-<!-- NAVIGATION -->
-<div class="navbar">
-    <div class="logo">MATT</div>
-    <div class="menu">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Projects</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact</a>
-    </div>
+<div class="app-bar">
+    <div class="logo">Matthew Kenyon</div>
+    <nav>
+        <a href="#games">Games</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
+    </nav>
 </div>
 
-<div class="hero-banner">
-    <div class="hero-banner-text">
-        Castle Climbers — An Epic Pixel Adventure<br />
-        Talk about the legal side as well as pairing with other people. Idea for screen space. Importance of user continuous interaction.
-    </div>
-    <div class="hero-banner-image-wrapper">
-        <img src="Images/Castle Climbers Background.png" alt="Castle Climbers Banner" class="hero-banner-image" />
-    </div>
-</div>
+<!-- Section 1: Hero -->
+<img src="Images/Castle Climbers Cover.png" alt="Banner Image" class="main-banner" />
+<h1 id="about">Castle Climbers</h1>
+<p class="description">
+    I’m a passionate software developer dedicated to creating intuitive, impactful programs that assist people.
 
+    <br /><br />
 
-<!-- SECTION: What is Castle Climbers -->
-<div class="section">
-    <h2>What is Castle Climbers?</h2>
-    <div class="section-content">
-        <p>
-            Castle Climbers is a vertical roguelike platformer filled with procedural challenges, shifting traps,
-            and a unique multiplayer co-op mechanic. Climb the tower, fight strange enemies, and uncover secrets as
-            you ascend together or fall trying.
-        </p>
-        <img src="Images/Castle Climbers Background.png" alt="Castle Climbers Screenshot" />
-    </div>
-</div>
+    I attended Newcastle University, where I was awarded the Degree of Masters of Computing with First Class Honours in
+    Computer Science (Game Engineering).
+</p>
 
-<!-- SECTION: Unity and C# -->
-<div class="section">
-    <h2>Unity and C#</h2>
-    <div class="section-content">
-        <p>
-            Castle Climbers is developed entirely in Unity using C#. Its architecture is modular and clean, supporting
-            procedural level generation, smooth animation handling, and multiplayer systems using custom logic.
-        </p>
-        <img src="Images/Castle Climbers Background.png" alt="Unity C# Screenshot" />
-    </div>
-</div>
-
-<!-- SECTION: Firebase and Backend -->
-<div class="section">
-    <h2>Firebase and Backend</h2>
-    <div class="section-content">
-        <p>
-            We use Firebase for realtime data sync and authentication, making it easy to manage multiplayer sessions,
-            leaderboards, and user progress. The backend ensures smooth and reliable game state management.
-        </p>
-        <div class="donut-chart-container">
-            <canvas id="firebaseChart"></canvas>
-            <div class="donut-chart-center-text">186<br />Total Downloads</div>
-        </div>
-    </div>
-</div>
-
-<!-- SECTION: Update Cycle -->
-<div class="section">
-    <h2>Update Cycle</h2>
-    <div class="section-content">
-        <p>
-            Castle Climbers follows a tight update loop, adding new levels, features, and improvements regularly.
-            Feedback-driven development ensures we stay responsive to the community.
-        </p>
-        <img src="Images/Castle Climbers Background.png" alt="Update Cycle Screenshot" />
-    </div>
-</div>
-
-<!-- SECTION: Update Cycle -->
-<div class="section">
-    <h2>What was learnt</h2>
-    <div class="section-content">
-        <p>
-            Castle Climbers follows a tight update loop, adding new levels, features, and improvements regularly.
-            Feedback-driven development ensures we stay responsive to the community.
-        </p>
-        <img src="Images/Castle Climbers Background.png" alt="Update Cycle Screenshot" />
-    </div>
-</div>
-
-<!-- Chart.js library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Firebase Donut Chart Script -->
-<script>
-    const ctx = document.getElementById('firebaseChart').getContext('2d');
-
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['iPhone', 'iPad', 'Desktop', 'iPod'],
-            datasets: [{
-                data: [161, 16, 8, 1],
-                backgroundColor: ['#ffa500', '#ff6f00', '#ffcc80', '#ffd180'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            cutout: '65%',
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-</script>
+<hr class="section-divider" />

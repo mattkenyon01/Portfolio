@@ -1,577 +1,717 @@
 ﻿@page "/Applications"
-@inject IJSRuntime JS
+@using Portfolio.Models
+@using Portfolio.Utilities
 
+<!-- Layout & App Bar (Section 1) -->
 <style>
+    /* Page & global typography */
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #0A0A0A;
         margin: 0;
         padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #420f22;
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+        text-align: center;
     }
 
-    header {
-        background: linear-gradient(to right, #FF7E00, #FFA500);
-        color: white;
-        padding: 0 40px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* App bar */
+    .app-bar {
+        width: 100%;
+        height: 60px;
+        background-color: #2e0b18;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
         z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        height: 80px;
-        font-size: 20px;
     }
 
-    nav ul {
-        list-style: none;
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        margin: 0;
-        padding: 0;
-    }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #121212;
-            font-weight: bold;
-            position: relative;
-            padding: 15px 0;
-            display: inline-block;
-            font-size: 22px;
+        .app-bar .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
         }
 
-            nav ul li a::after {
-                content: '';
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 0;
-                height: 2px;
-                background-color: yellow;
-                transition: width 0.3s ease-in-out;
+        .app-bar nav {
+            display: flex;
+            gap: 20px;
+        }
+
+            .app-bar nav a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color .3s;
             }
 
-            nav ul li a:hover::after {
-                width: 100%;
-            }
+                .app-bar nav a:hover {
+                    background-color: #971d21;
+                }
 
-    .description {
-        text-align: center;
-        padding: 40px;
-        background-color: #121212;
-        font-size: 20px;
+    /* Hero */
+    img.main-banner {
+        width: 95%;
+        max-width: 1200px;
+        height: auto;
+        margin: 80px 0 20px 0;
+        border-radius: 20px;
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    p.description {
+        font-size: 1.2rem;
+        font-weight: 400;
+        max-width: 800px;
+        margin: 12px auto 30px auto; /* 👈 auto centers the block */
         line-height: 1.6;
+        text-align: center; /* 👈 centers the text inside */
+    }
+
+    /* Divider */
+    hr.section-divider {
+        border: none;
+        height: 2px;
+        width: 80%;
         max-width: 1000px;
         margin: 40px auto;
-        color: white;
-        border: 1px solid #333;
-        border-radius: 10px;
-        transition: transform 0.3s ease;
+        background: #e7571d;
+        border-radius: 2px;
     }
 
-        .description:hover {
-            transform: scale(1.02);
-        }
+    /* Collapsible (kept in case you need it later) */
+    .collapsible {
+        max-width: 1000px;
+        width: 90%;
+        margin: 0 auto 8px auto;
+    }
 
-    .carousel-wrapper {
+    .collapsible-header {
+        width: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
-        background-color: #0A0A0A;
-        padding: 40px 20px;
-        max-width: 1200px;
-        margin: 0 auto;
+        justify-content: space-between;
+        gap: 12px;
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 12px 16px;
+        cursor: pointer;
+        text-align: left;
+        transition: background .2s ease, border-color .2s ease;
     }
 
-    .carousel-container {
-        width: 1040px;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .carousel-track {
+    .header-left {
         display: flex;
-        transition: transform 0.5s ease;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .collapsible-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .collapsible-icons {
+        display: inline-flex;
+        gap: 10px;
+    }
+
+        .collapsible-icons img {
+            width: 40px;
+            height: 40px;
+            opacity: .9;
+        }
+
+            .collapsible-icons img:hover {
+                opacity: 1;
+            }
+
+    .chevron {
+        transition: transform .18s ease;
+        opacity: .9;
+    }
+
+        .chevron.open {
+            transform: rotate(180deg);
+        }
+
+    .collapsible-panel {
+        overflow: hidden;
+        max-height: 0;
+        background: transparent;
+        transition: max-height .25s ease, background .25s ease;
+    }
+
+        .collapsible-panel.open {
+            max-height: var(--panel-max, 1500px);
+            background: rgba(255,255,255,0.02);
+            border-radius: 0 0 12px 12px;
+        }
+
+    .collapsible-inner {
+        padding: 12px 0 0 0;
+    }
+
+    /* Showcase (kept) */
+    .showcase-section {
+        max-width: 1000px;
+        width: 90%;
+        margin: 0 auto 60px auto;
+        text-align: center;
+    }
+
+    .showcase-image {
+        width: 100%;
+        max-width: 800px;
+        border-radius: 16px;
+        margin: 0 auto 20px auto;
+        display: block;
+    }
+
+    .showcase-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        max-width: 800px;
+        margin: 0 auto 16px auto;
+        opacity: .95;
+        text-align: left;
+    }
+
+    .stats-subtitle {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 16px auto 8px auto;
+        max-width: 800px;
+        text-align: left;
+        opacity: .95;
+    }
+
+    .showcase-stats {
+        max-width: 800px;
+        margin: 8px auto 24px auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
     }
 
-        .carousel-track img {
-            width: 200px;
-            height: auto;
-            border-radius: 10px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-        }
-
-    .carousel-button {
-        background-color: #FFA500;
-        border: none;
-        color: black;
-        font-size: 24px;
-        padding: 10px 20px;
-        cursor: pointer;
-        border-radius: 8px;
-        margin: 0 10px;
-        transition: background-color 0.3s ease;
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(255,255,255,.05);
+        padding: 12px;
+        border-radius: 10px;
+        text-align: center;
     }
 
-        .carousel-button:hover {
-            background-color: #FF7E00;
+    .stat-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        justify-content: center;
+    }
+
+    .stat-title {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #e7571d;
+    }
+
+    .stat-icon {
+        width: 24px;
+        height: 24px;
+        opacity: .9;
+    }
+
+    @@media (max-width: 768px) {
+        .showcase-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .showcase-btn {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        background: #e7571d;
+        color: #fff;
+        box-shadow: 0 6px 18px rgba(231,87,29,.35);
+    }
+
+    /* ===== New Section Styles ===== */
+    .feature-section {
+        width: 90%;
+        max-width: 1000px;
+        margin: 40px auto 64px auto;
+        text-align: left;
+    }
+
+    .feature-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 16px;
+    }
+
+    .feature-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .feature-icons {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+        .feature-icons img {
+            width: 36px;
+            height: 36px;
+            filter: drop-shadow(0 0 0 rgba(0,0,0,0.0));
+            opacity: .95;
+            transition: transform .15s ease, opacity .15s ease;
+        }
+
+            .feature-icons img:hover {
+                transform: translateY(-2px);
+                opacity: 1;
+            }
+
+    .feature-image {
+        width: 100%;
+        max-width: 1000px;
+        height: auto;
+        border-radius: 16px;
+        display: block;
+        margin: 30px auto 30px auto;
+    }
+
+    .feature-subtitle {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin: 30px 0 10px 0;
+    }
+
+    .feature-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        opacity: .95;
+        max-width: 900px;
+    }
+
+    @@media (max-width: 640px) {
+        .feature-head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .feature-icons {
+            justify-content: flex-start;
+        }
+    }
+
+    /* ===== Search styles ===== */
+    .search-section {
+        width: 90%;
+        max-width: 1000px;
+        margin: 10px auto 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: 600px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        font-size: 1rem;
+        outline: none;
+        transition: box-shadow .15s ease, border-color .15s ease;
+    }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-input:focus {
+            border-color: #e7571d;
+            box-shadow: 0 0 0 4px rgba(231,87,29,.18);
         }
 </style>
 
-<header>
+<div class="app-bar">
+    <div class="logo">Matthew Kenyon</div>
     <nav>
-        <ul>
-            <li><NavLink href="/" class="hover:text-yellow-300 transition duration-300">Home</NavLink></li>
-            <li><NavLink href="/about" class="hover:text-yellow-300 transition duration-300">About</NavLink></li>
-            <li><NavLink href="/services" class="hover:text-yellow-300 transition duration-300">Services</NavLink></li>
-            <li><NavLink href="/contact" class="hover:text-yellow-300 transition duration-300">Contact</NavLink></li>
-        </ul>
+        <a href="#games">Games</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
     </nav>
-</header>
+</div>
 
-<section class="description">
-    <h3>About Me</h3>
-    <p>
-        I've been coding for seven years, working on all sorts of projects with different
-        programming languages and technologies. I started out focusing on Unity but recently
-        branched out to explore other languages, like Flutter with Dart and C++ with CMake, to
-        expand my programming knowledge.
-    </p>
+<!-- Hero -->
+<img src="Images/Games Cover 2.png" alt="Banner Image" class="main-banner" />
+<h1 id="about"></h1>
+<p class="description">Passionate software developer specialising in game development, procedural generation, and full-stack projects.</p>
+
+<hr class="section-divider" />
+
+<!-- ===== Search Bar ===== -->
+<section class="search-section" aria-label="Search games">
+    <input type="search"
+           id="gameSearch"
+           class="search-input"
+           placeholder="Search by title (e.g., Castle, Platformer, CMake)…"
+           aria-label="Search game titles" />
 </section>
 
-<section class="carousel-wrapper">
-    <button class="carousel-button" @onclick="ScrollLeft">&#8592;</button>
-    <div class="carousel-container">
-        <div class="carousel-track" @ref="CarouselTrackRef" style="@($"transform: translateX(-{TranslateOffset}px)")">
-            @foreach (var image in DisplayedImages)
-            {
-                <img src="@image.Src" @onclick="() => SelectImage(image.Name)" />
-            }
-        </div>
+<!-- ===== Passionate Software Grid ===== -->
+<section class="passion-section" id="games-grid" style="--cols: 3;">
+    <div class="passion-grid" id="gamesGrid">
+        <!-- Card 1 -->
+        <article class="passion-card" data-tags="castle climbers,unity,c#,firebase,javascript,xcode,appstore,platformer,procedural">
+            <h3 class="card-title">Bucket Connect</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("flutter")" alt="Unity" />
+                <img src="@IconRef.GetIcon("dart")" alt="C#" />
+                <img src="@IconRef.GetIcon("firebase")" alt="Firebase" />
+                <img src="@IconRef.GetIcon("javascript")" alt="JavaScript" />
+                <img src="@IconRef.GetIcon("xcode")" alt="Xcode" />
+                <img src="@IconRef.GetIcon("appstore")" alt="Apple App Store" />
+                <img src="@IconRef.GetIcon("admob")" alt="AdMob" />
+            </div>
+
+            <img class="card-image" src="Images/Bucket Connect Cover.png" alt="Castle Climbers Screenshot">
+
+            <p class="card-desc">
+                An intuitive bucket list app, allowing users to make lists, track their progress, view their friends lists
+                and get inspired by public bucket lists.
+            </p>
+
+            <a class="card-btn" href="/Applications/BucketConnect">View Details</a>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="passion-card" data-tags="stroke recovery,unity,c#,pycharm,python,opencv,computer vision,health">
+            <h3 class="card-title">Girls Who Walk</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("flutter")" alt="Unity" />
+                <img src="@IconRef.GetIcon("dart")" alt="C#" />
+                <img src="@IconRef.GetIcon("firebase")" alt="Firebase" />
+                <img src="@IconRef.GetIcon("javascript")" alt="JavaScript" />
+                <img src="@IconRef.GetIcon("xcode")" alt="Xcode" />
+                <img src="@IconRef.GetIcon("appstore")" alt="Apple App Store" />
+                <img src="@IconRef.GetIcon("googleplay")" alt="Apple App Store" />
+                <img src="@IconRef.GetIcon("admob")" alt="AdMob" />
+            </div>
+
+            <img class="card-image" src="Images/Girls Who Walk Logo Phone.png" alt="Girls Who Walk App">
+
+            <p class="card-desc">
+                A social media app for the Girls Who Walk groups across the country, allowing them to post events
+                and communicate.
+            </p>
+
+            <a class="card-btn" href="/Applications/GirlsWhoWalk">View Details</a>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="passion-card" data-tags="procedural generation,unity,c#,excel,noise,caves,biomes,lightmap">
+            <h3 class="card-title">Kenyon Dev Labs Website</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("blazor")" alt="C#" />
+                <img src="@IconRef.GetIcon("html")" alt="C#" />
+                <img src="@IconRef.GetIcon("css")" alt="C#" />
+                <img src="@IconRef.GetIcon("javascript")" alt="C#" />
+                <img src="@IconRef.GetIcon("azure")" alt="Unity" />
+            </div>
+
+            <img class="card-image" src="Images/Website Cover 2.png" alt="Procedural Generation Preview">
+
+            <p class="card-desc">
+                My website that promotes all the projects I have published, along with their patch notes and
+                other valuable information.
+            </p>
+
+            <a class="card-btn" href="/Applications/KenyonDevLabsWebsite">View Details</a>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="passion-card" data-tags="car arcade,unity,c#">
+            <h3 class="card-title">Live List</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("flutter")" alt="Unity" />
+                <img src="@IconRef.GetIcon("dart")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/Live List.png" alt="Car Arcade Game">
+
+            <p class="card-desc">
+                An app that tracks the live music the user has listened to, as well as the festivals they have visited.
+            </p>
+
+            <a class="card-btn" href="/Applications/LiveList">View Details</a>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="passion-card" data-tags="top down shooter,unity,c#">
+            <h3 class="card-title">Receipt Scanner App</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("flutter")" alt="Unity" />
+                <img src="@IconRef.GetIcon("dart")" alt="C#" />
+                <img src="@IconRef.GetIcon("googlecloud")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/Receipt.png" alt="Top Down Shooter">
+
+            <p class="card-desc">
+                An AI receipt scanning app which allows the user to scan a receipt and split it depending
+                on who ordered what.
+            </p>
+
+            <a class="card-btn" href="/Applications/ReceiptApp">View Details</a>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="passion-card" data-tags="unity world,unity,c#">
+            <h3 class="card-title">Interactive World Map</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/World 1.png" alt="Unity World">
+
+            <p class="card-desc">
+                An interactive world map hilighting the main contributors of pollution, as well as the
+                species that are endangered as a result.
+            </p>
+
+            <a class="card-btn" href="/Applications/InteractiveMap">View Details</a>
+        </article>
+
+        <!-- Card 7 -->
+        <article class="passion-card" data-tags="cmake world,cmake,c++,toolchain,build">
+            <h3 class="card-title">Crafting Recipies Graph</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("react")" alt="CMake" />
+                <img src="@IconRef.GetIcon("javascript")" alt="CMake" />
+                <img src="@IconRef.GetIcon("supabase")" alt="C++" />
+            </div>
+
+            <img class="card-image" src="Images/Scene.png" alt="CMake World">
+
+            <p class="card-desc">
+                An app that allows users to create their own unique crafting recipies for their own survival video games.
+            </p>
+
+            <a class="card-btn" href="/Applications/CraftingRecipies">View Details</a>
+        </article>
+
     </div>
-    <button class="carousel-button" @onclick="ScrollRight">&#8594;</button>
 </section>
 
-@if (SelectedImageName == "Bucket Connect")
-{
-    <section class="description">
-        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
-            <img src="images/Castle Climbers Background.png" alt="Castle Climbers Screenshot"
-                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
-
-            <div style="flex: 1;">
-                <h4>Gameplay Overview</h4>
-                <p>
-                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
-                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
-                    in the world in an evolving and more challenging environment, with different themes and environments.
-                </p>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="description">
-        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
-            <div style="flex: 1;">
-                <h4>Gameplay Overview</h4>
-                <p>
-                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
-                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
-                    in the world in an evolving and more challenging environment, with different themes and environments.
-                </p>
-            </div>
-            <img src="images/Castle Climbers Background.png" alt="Castle Climbers Screenshot"
-                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
-        </div>
-    </section>
-
-    <section class="description">
-        <h4>Technologies</h4>
-        <p>@SelectedImageName</p>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
-            <!-- Unity -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Unity Icon.webp" style="width: 50px; height: 50px;" alt="Unity Icon" />
-                    <h5 style="margin: 0;">Unity</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
-            </div>
-
-            <!-- C# -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/C Icon.png" style="width: 45px; height: 50px;" alt="C# Icon" />
-                    <h5 style="margin: 0;">C#</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
-            </div>
-
-            <!-- Firebase -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Firebase Icon.png" style="width: 55px; height: 55px;" alt="Firebase Icon" />
-                    <h5 style="margin: 0;">Firebase</h5>
-                </div>
-                <p style="margin: 10px 0 0;">
-                    Used for backend services so all user data could be stored. Also generated leaderboards.
-                </p>
-            </div>
-
-            <!-- JavaScript -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Javascript Icon.webp" style="width: 65px; height: 65px;" alt="JavaScript Icon" />
-                    <h5 style="margin: 0;">JavaScript</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Used for web-based integrations and chart rendering.</p>
-            </div>
-
-            <!-- Xcode -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Xcode Icon.webp" style="width: 64px; height: 64px;" alt="Xcode Icon" />
-                    <h5 style="margin: 0;">Xcode</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Used for iOS builds and App Store deployment.</p>
-            </div>
-
-            <!-- App Store -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/App Store Icon.png" style="width: 50px; height: 50px;" alt="App Store Icon" />
-                    <h5 style="margin: 0;">App Store</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Game published on the App Store for iOS users.</p>
-            </div>
-        </div>
-    </section>
-
-
-
-    <section class="description">
-        <h4 style="width: 100%; text-align: center;">App Store Ratings</h4>
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: nowrap;">
-            <div style="flex-shrink: 0;">
-                <canvas id="ratingsChart" width="600" height="300"></canvas>
-            </div>
-            <div style="max-width: 300px; text-align: left;">
-                <p>
-                    Castle Climbers has received overwhelmingly positive reviews, with the majority of players
-                    rating it 5 stars for its fun gameplay, smooth controls, and challenging level design.
-                    The intuitive mechanics and replay value have made it a favorite among platformer fans.
-                </p>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="description">
-        <h4>Game Stats</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
-            <div>
-                <h5>Total Games Played</h5>
-                <p>2,442</p>
-            </div>
-            <div>
-                <h5>Total Jumps</h5>
-                <p>126,279</p>
-            </div>
-            <div>
-                <h5>Total Fall Distance</h5>
-                <p>189,839m</p>
-            </div>
-            <div>
-                <h5>Total Coins</h5>
-                <p>145,522</p>
-            </div>
-            <div>
-                <h5>Total Points</h5>
-                <p>693,460</p>
-            </div>
-            <div>
-                <h5>Total Time Played</h5>
-                <p>88h 20m</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="description">
-        <h4>What I Learned</h4>
-        <p>
-            This project taught me about player feedback loops, camera smoothing, and efficient sprite animation.
-            It also gave me experience fine-tuning difficulty curves and level pacing.
-        </p>
-    </section>
-}
-@if (SelectedImageName == "Health Game")
-{
-    <section class="description">
-        <h4>Technologies</h4>
-        <p>@SelectedImageName</p>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;">
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Flutter Icon.png" style="width: 50px; height: 50px;" alt="Unity Icon" />
-                    <h5 style="margin: 0;">Flutter</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Game engine used for development and physics simulation.</p>
-            </div>
-
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Dart Icon.webp" style="width: 45px; height: 50px;" alt="C# Icon" />
-                    <h5 style="margin: 0;">Dart</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Primary programming language used in the game logic.</p>
-            </div>
-
-            <!-- Firebase -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/Firebase Icon.png" style="width: 55px; height: 55px;" alt="Firebase Icon" />
-                    <h5 style="margin: 0;">Firebase</h5>
-                </div>
-                <p style="margin: 10px 0 0;">
-                    Used for backend services so all user data could be stored. Also generated leaderboards.
-                </p>
-            </div>
-
-            <!-- App Store -->
-            <div style="text-align: center;">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
-                    <img src="../Images/App Store Icon.png" style="width: 50px; height: 50px;" alt="App Store Icon" />
-                    <h5 style="margin: 0;">App Store</h5>
-                </div>
-                <p style="margin: 10px 0 0;">Game published on the App Store for iOS users.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="description">
-        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
-            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
-                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
-
-            <div style="flex: 1;">
-                <h4>Gameplay Overview</h4>
-                <p>
-                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
-                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
-                    in the world in an evolving and more challenging environment, with different themes and environments.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="description">
-        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
-            <img src="images/Bucket Connect web cover.png" alt="Castle Climbers Screenshot"
-                 style="width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(255,255,255,0.1);" />
-
-            <div style="flex: 1;">
-                <h4>Gameplay Overview</h4>
-                <p>
-                    Castle Climbers is a Unity app that is my biggest project to date. It makes use of procedurally generating terrain
-                    to create an infinite scrolling world that immerses the user, and requires them to climb up through the platforms
-                    in the world in an evolving and more challenging environment, with different themes and environments.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="description">
-        <h4>Game Stats</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;">
-            <div>
-                <h5>Downloads</h5>
-                <p>150</p>
-            </div>
-            <div>
-                <h5>Rating</h5>
-                <p>5.0</p>
-            </div>
-            <div>
-                <h5>Total Lists Created</h5>
-                <p>130</p>
-            </div>
-
-        </div>
-    </section>
-}
-
-
-
-@code {
-    public class GameImage
-    {
-        public string Src { get; set; } = "";
-        public string Name { get; set; } = "";
+<style>
+    /* Base grid (desktop) */
+    .passion-grid {
+        --cols: 3; /* default; you can change to any r */
+        display: grid;
+        grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
     }
 
-    private List<GameImage> AllImages = new()
-    {
-        new() { Src = "../Images/Bucket Connect web cover.png", Name = "Bucket Connect" },
-        new() { Src = "../Images/GWW Icon.jpg", Name = "GWW" },
-        new() { Src = "../Images/Receipt Table.webp", Name = "Receipt App" },
-        new() { Src = "../Images/Festival.jpg", Name = "Festival" },
-        new() { Src = "../Images/World 1.png", Name = "World" },
-        new() { Src = "../Images/Web.png", Name = "Web App" },
-    };
+    .passion-card {
+        background: rgba(255,255,255,.05);
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center; /* 👈 centers title + desc */
+    }
 
-    private List<GameImage> DisplayedImages = new();
-    private const int VisibleCount = 5;
-    private const int ImageWidthWithGap = 220;
-    private ElementReference CarouselTrackRef;
-    private int TranslateOffset = 0;
-    private bool IsTransitioning = false;
-    private string? SelectedImageName;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (SelectedImageName == "Bucket Connect")
-        {
-            await JS.InvokeVoidAsync("renderRatingsChart");
+        .passion-card .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0 0 6px 0;
         }
-    }
 
-    protected override void OnInitialized()
-    {
-        SelectedImageName = "Bucket Connect";
-
-        var extraFront = AllImages[^1];
-        var extraBack = AllImages[0];
-
-        DisplayedImages = new List<GameImage> { extraFront };
-        DisplayedImages.AddRange(AllImages.Take(VisibleCount));
-        DisplayedImages.Add(extraBack);
-
-        TranslateOffset = ImageWidthWithGap;
-    }
-
-    private async Task ScrollRight()
-    {
-        if (IsTransitioning) return;
-        IsTransitioning = true;
-
-        var first = AllImages[0];
-        AllImages.RemoveAt(0);
-        AllImages.Add(first);
-        UpdateDisplayedImages();
-
-        TranslateOffset = 0;
-        await JS.InvokeVoidAsync("resetCarouselTransform", CarouselTrackRef, TranslateOffset);
-        await Task.Yield();
-
-        TranslateOffset = ImageWidthWithGap;
-        StateHasChanged();
-        await Task.Delay(500);
-
-        IsTransitioning = false;
-    }
-
-    private async Task ScrollLeft()
-    {
-        if (IsTransitioning) return;
-        IsTransitioning = true;
-
-        var last = AllImages[^1];
-        AllImages.RemoveAt(AllImages.Count - 1);
-        AllImages.Insert(0, last);
-        UpdateDisplayedImages();
-
-        TranslateOffset = ImageWidthWithGap * 2;
-        await JS.InvokeVoidAsync("resetCarouselTransform", CarouselTrackRef, TranslateOffset);
-        await Task.Yield();
-
-        TranslateOffset = ImageWidthWithGap;
-        StateHasChanged();
-        await Task.Delay(500);
-
-        IsTransitioning = false;
-    }
-
-    private void UpdateDisplayedImages()
-    {
-        var extraFront = AllImages[^1];
-        var extraBack = AllImages[0];
-
-        DisplayedImages = new List<GameImage> { extraFront };
-        DisplayedImages.AddRange(AllImages.Take(VisibleCount));
-        DisplayedImages.Add(extraBack);
-    }
-
-    private async void SelectImage(string name)
-    {
-        SelectedImageName = name;
-        StateHasChanged();
-
-        if (name == "Castle Climbers")
-        {
-            await Task.Delay(100); // Small delay to ensure canvas renders
-            await JS.InvokeVoidAsync("renderRatingsChart");
+        .passion-card .tech-icons {
+            display: flex;
+            justify-content: center; /* 👈 centers icons row */
+            gap: 8px;
+            margin-bottom: 8px;
         }
-    }
-}
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    window.resetCarouselTransform = (element, offset) => {
-        if (!element) return;
-        element.style.transition = "none";
-        element.style.transform = `translateX(-${offset}px)`;
-        void element.offsetHeight;
-        element.style.transition = "transform 0.5s ease";
-    };
+            .passion-card .tech-icons img {
+                width: 22px; /* 👈 smaller icons */
+                height: 22px;
+                opacity: .9;
+                transition: transform .15s ease, opacity .15s ease;
+            }
 
-    window.renderRatingsChart = () => {
-        const ctx = document.getElementById('ratingsChart');
-        if (!ctx) return;
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['5', '4', '3', '2', '1'],
-                datasets: [{
-                    label: 'Rating',
-                    data: [9, 1, 0, 0, 0],
-                    backgroundColor: '#FFA500'
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: 'white'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 9,
-                        ticks: {
-                            color: 'white'
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            color: 'white'
-                        }
-                    }
+                .passion-card .tech-icons img:hover {
+                    transform: translateY(-1px);
+                    opacity: 1;
                 }
+
+        .passion-card .card-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 auto; /* 👈 center block image */
+        }
+
+        .passion-card .card-desc {
+            margin: 6px 0 10px 0;
+            opacity: .95;
+            line-height: 1.6;
+            text-align: center; /* 👈 explicitly center text */
+        }
+
+        .passion-card .card-btn {
+            display: inline-block;
+            margin: 0 auto; /* 👈 center button */
+            padding: 8px 12px; /* 👈 smaller button */
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem; /* 👈 slightly smaller text */
+            text-decoration: none;
+            background: #e7571d;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(231,87,29,.35);
+            transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+        }
+
+            .passion-card .card-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(231,87,29,.45);
+                opacity: 1;
+            }
+
+    /* Responsive fallbacks */
+    @@media (max-width: 1024px) {
+        .passion-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .passion-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Lightweight filtering logic (TITLE ONLY) -->
+<script>
+    (function () {
+        const input = document.getElementById('gameSearch');
+        const cards = Array.from(document.querySelectorAll('.passion-card'));
+
+        function filterCards() {
+            const q = (input.value || '').trim().toLowerCase();
+
+            cards.forEach(card => {
+                const title = (card.querySelector('.card-title')?.textContent || '').toLowerCase();
+                const match = q === '' || title.includes(q);
+                card.style.display = match ? '' : 'none';
+            });
+        }
+
+        // Debounce for nicer UX on fast typing
+        let t = null;
+        input.addEventListener('input', () => {
+            clearTimeout(t);
+            t = setTimeout(filterCards, 120);
+        });
+
+        // Allow clearing with Esc
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                input.value = '';
+                filterCards();
             }
         });
-    };
+
+        // Initial state (show all)
+        filterCards();
+    })();
 </script>
+
+<!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        color: #ddd;
+        font-size: 0.95rem;
+        margin-top: 40px;
+    }
+
+        footer a {
+            color: #e7571d;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+            footer a:hover {
+                color: #fff;
+            }
+
+    .footer-links {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+</style>
+
+<footer>
+    <div>© @DateTime.Now.Year Matthew Kenyon — All Rights Reserved</div>
+    <div class="footer-links">
+        <a href="mailto:matthew.kenyon@example.com">Email</a>
+        <a href="https://github.com/mattkenyon01" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/matthew-kenyon" target="_blank">LinkedIn</a>
+    </div>
+</footer>

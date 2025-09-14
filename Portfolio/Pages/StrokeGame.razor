@@ -1,10 +1,7 @@
-﻿@page "/Applications/bucketconnect"
+﻿@page "/Games/strokegame"
 @using Portfolio.Pages
 @using Portfolio.Utilities
 @inject IJSRuntime JS
-
-<!-- Chart.js (safe to keep if not globally loaded) -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <!-- Layout & App Bar (Section 1) -->
 <style>
@@ -116,8 +113,8 @@
 </div>
 
 <!-- Section 1: Hero -->
-<img src="Images/Bucket Connect Cover.png" alt="Banner Image" class="main-banner" />
-<h1 id="about">Bucket Connect</h1>
+<img src="Images/Blue 2.png" alt="Banner Image" class="main-banner" />
+<h1 id="about">Game for Rehabilitation of Stroke </h1>
 <p class="description">
     I’m a passionate software developer dedicated to creating intuitive, impactful programs that assist people.
 
@@ -129,13 +126,13 @@
 
 <hr class="section-divider" />
 
-<!-- University Grades / Chart + Note (Section 2) -->
+<!-- Project Downloads (Section 2) -->
 <style>
     .stats-section {
         max-width: 1000px;
         width: 100%;
-        margin: 0 auto;
-        padding-inline: 20px;
+        margin: 0 auto; /* center the container */
+        padding-inline: 20px; /* gutters */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -148,21 +145,14 @@
             text-align: center;
         }
 
-    /* Make chart and note sit side-by-side on desktop */
     .stats-content {
         display: flex;
-        align-items: center;
         justify-content: center;
-        gap: 40px;
-        flex-wrap: wrap; /* stacks on small screens */
-        text-align: left;
-        width: 100%;
-    }
-
-    .chart-group {
-        display: flex;
-        flex-direction: column;
         align-items: center;
+        gap: 50px;
+        flex-wrap: wrap;
+        text-align: center;
+        width: 100%;
     }
 
     .chart-container {
@@ -180,30 +170,15 @@
         font-size: 1rem;
         font-weight: 700;
         color: white;
-        pointer-events: none;
     }
 
-    .chart-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .chart-title {
-        margin-top: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #fff;
-        text-align: center;
-    }
-
-    /* Legend (kept in case you add more items later) */
+    /* Legend */
     .stats-text {
         font-size: 1.1rem;
         line-height: 1.6;
-        min-width: 260px;
-        text-align: left;
-        margin: 0;
+        min-width: 260px; /* desktop look */
+        text-align: left; /* desktop look */
+        margin: 0; /* will be centered by media rule when stacked */
     }
 
         .stats-text p {
@@ -211,7 +186,7 @@
             align-items: center;
             gap: 8px;
             margin: 6px 0;
-            justify-content: flex-start;
+            justify-content: flex-start; /* desktop look */
         }
 
     .legend-square {
@@ -235,11 +210,13 @@
     }
     /* Girls Who Walk */
 
-    /* Note to the right of the chart */
     .stats-note {
-        max-width: 500px;
+        margin-top: 20px;
+        max-width: 800px;
+        width: 90%;
         line-height: 1.7;
         opacity: 0.95;
+        text-align: center;
     }
 
     /* When the legend wraps under the chart (tablet / narrow widths), center it */
@@ -254,12 +231,8 @@
         }
 
             .stats-text p {
-                justify-content: center;
+                justify-content: center; /* center each row (square + label) */
             }
-        /* Center the note under the chart on smaller screens */
-        .stats-note {
-            text-align: center;
-        }
     }
 
     /* Ensure desktop stays left-aligned when space allows */
@@ -271,31 +244,63 @@
             .stats-text p {
                 justify-content: flex-start;
             }
-
-        .stats-note {
-            text-align: left;
-        }
     }
+
+    .chart-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart-title {
+        margin-top: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        text-align: center;
+    }
+
 </style>
 
 <div class="stats-section" id="games">
-    <h2>App Production</h2>
+    <h2>University Grades</h2>
     <div class="stats-content">
-        <!-- Charts group -->
-        <div class="chart-group">
-            <div class="chart-item">
-                <div class="chart-container">
-                    <canvas id="grade"></canvas>
-                    <div class="chart-value" id="gradeValue">@DownloadStats.BucketConnectDownloads</div>
-                </div>
-                <p class="chart-title">Overall Grade</p>
+        <div class="chart-item">
+            <div class="chart-container">
+                <canvas id="proposal"></canvas>
+                <div class="chart-value">77.25%</div>
             </div>
+            <p class="chart-title">Research Proposal</p>
         </div>
 
-        <!-- Note to the right -->
-        <div class="stats-note">
-            This project was completed as a dissertation at Newcastle University and was received very positively. It achieved a high First Class, with strong marks across each section. It was praised by health professionals for its thorough research into both targeted muscle engagement and cognitive benefits — including the use of colour theory to enhance memory — plus accessibility-focused design and comprehensive performance and progress tracking.
+        <div class="chart-item">
+            <div class="chart-container">
+                <canvas id="poster"></canvas>
+                <div class="chart-value">82.5%</div>
+            </div>
+            <p class="chart-title">Poster</p>
         </div>
+
+        <div class="chart-item">
+            <div class="chart-container">
+                <canvas id="presentation"></canvas>
+                <div class="chart-value">90%</div>
+            </div>
+            <p class="chart-title">Oral Examination</p>
+        </div>
+
+        <div class="chart-item">
+            <div class="chart-container">
+                <canvas id="dissertation"></canvas>
+                <div class="chart-value">78.5%</div>
+            </div>
+            <p class="chart-title">Dissertation</p>
+        </div>
+    </div>
+
+    <div class="stats-note">
+        This project was completed as a dissertation at Newcastle Univerity, and was received very positively. It received a high first class, with high marks being awarded across each section of the project. It was praised 
+        by health professionals it for its thorough research into both targeted muscle engagement and cognitive benefits, including the use of colour theory to enhance memory, accessibility-focused design, and comprehensive performance and progress tracking.
     </div>
 </div>
 
@@ -332,7 +337,7 @@
         padding: 20px 18px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: center; /* center everything */
         text-align: center;
         transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
     }
@@ -345,8 +350,8 @@
 
     .feature-icons {
         display: flex;
-        justify-content: center;
-        gap: 8px;
+        justify-content: center; /* center them horizontally */
+        gap: 8px; /* space between icons */
         margin-bottom: 10px;
     }
 
@@ -369,23 +374,27 @@
         line-height: 1.55;
         opacity: 0.95;
         margin: 0;
-        max-width: 32ch;
+        max-width: 32ch; /* keeps tidy line length */
     }
 
     /* Responsive */
     @@media (max-width: 900px) {
-        .features-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
+        .features-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
     }
 
+    }
     @@media (max-width: 620px) {
-        .features-grid {
-            grid-template-columns: 1fr;
-        }
+        .features-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
     }
 </style>
-
 
 
 <!-- ===== Image + Text Section ===== -->
@@ -398,7 +407,7 @@
         display: flex;
         align-items: center;
         gap: 30px;
-        flex-wrap: wrap;
+        flex-wrap: wrap; /* makes it responsive */
     }
 
         .image-text-section img {
@@ -441,96 +450,69 @@
 </style>
 
 <section class="image-text-section">
-    <img src="Images/Cover 1.png" alt="Project Screenshot" />
+    <img src="Images/Games for Health 3.png" alt="Project Screenshot" />
     <div class="image-text-content">
-        <h2>Features</h2>
+        <h2>Minigames</h2>
         <p>
-            There are 8 minigames for the patient to try. They are separated into 4 groups, with 2 unique movements
-            targeted at each muscle in the hand. Three games are randomly chosen each time the user plays, so each experience
-            is different and kept entertaining and varied.
+            There are 8 minigames for the patient to try out. They are separated into 4 groups, with 2 unique movement
+            targetted at each muscle in the hand. 3 games are randomly chosen each time the user plays, so each experience
+            is different and kept entertatining and varied.
+        </p>
+    </div>
+</section>
+<section class="image-text-section">
+
+    <div class="image-text-content">
+        <h2>Instructions</h2>
+        <p>
+            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
+            until the user clicks or says play, which will then start the game. The user also has the option to pause the game
+            or replay using voice controls.
+        </p>
+    </div>
+    <img src="Images/Blue 1.jpeg" alt="Project Screenshot" />
+</section>
+
+<section class="image-text-section">
+
+    <img src="Images/Red 2.jpeg" alt="Project Screenshot" />
+    <div class="image-text-content">
+        <h2>Gameplay</h2>
+        <p>
+            The gameplay is kept very simple and very short, as the user shouldn't overwork their muscles. They are also kept
+            very colourful to aid control and concentration. There is also aids on the bottom of the screen to make sure the hands
+            are being tracked properly.
         </p>
     </div>
 </section>
 
-<section class="image-text-section">
-    <div class="image-text-content">
-        <h2>Scene</h2>
-        <p>
-            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
-            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
-            or replay using voice controls.
-        </p>
-    </div>
-    <img src="Images/Cover 2.png" alt="Project Screenshot" />
-</section>
-<section class="image-text-section">
-    <img src="Images/Cover 3.png" alt="Project Screenshot" />
-    <div class="image-text-content">
-        <h2>Scene</h2>
-        <p>
-            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
-            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
-            or replay using voice controls.
-        </p>
-    </div>
 
+
+<section class="image-text-section">
+    
+    <div class="image-text-content">
+        <h2>Variation</h2>
+        <p>
+            All of the minigames are completely different, and utilise the hands in different ways. Some games require the user to rotate
+            their hands in a certain way, some require grabbing at virtual objects, and some require the user to show digits from memory.
+        </p>
+    </div>
+    <img src="Images/Yellow 2.jpeg" alt="Project Screenshot" />
+</section>
+
+<section class="image-text-section">
+    <img src="Images/Game for Health 2.png" alt="Project Screenshot" />
+    <div class="image-text-content">
+        <h2>Improvement</h2>
+        <p>
+            The user's progress is tracked for each game, showing their progression through rehabilitation. This feedback is kept positive
+            to encourage the user to keep working and achieving.
+        </p>
+    </div>
+    
 </section>
 
 <hr class="section-divider" />
-<section class="features-section">
-    <h2>Software</h2>
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("flutter")" alt="Unity Icon">
-                <img class="feature-icon" src="@IconRef.GetIcon("dart")" alt="C# Icon">
-            </div>
-            <div class="feature-title">Flutter + Dart</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("firebase")" alt="Unity Icon">
-            </div>
-            <div class="feature-title">Firebase</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("Javascript")" alt="Unity Icon">
-            </div>
-            <div class="feature-title">Javascript</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("xcode")" alt="Unity Icon">
-                <img class="feature-icon" src="@IconRef.GetIcon("appstore")" alt="C# Icon">
-            </div>
-            <div class="feature-title">Xcode + App Store</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-
-
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("admob")" alt="Unity Icon">
-            </div>
-            <div class="feature-title">AdMob</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-    </div>
-</section>
 <!-- Footer -->
 <style>
     footer {
@@ -562,6 +544,43 @@
     }
 </style>
 
+
+<section class="features-section">
+    <h2>Software</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("unity")" alt="Unity Icon">
+                <img class="feature-icon" src="@IconRef.GetIcon("c#")" alt="C# Icon">
+            </div>
+            <div class="feature-title">Unity + C#</div>
+            <p class="feature-desc">
+                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be dealt with as individual game objects. This made it easy to verify whether the hand movements were completed correctly, as only the proximity of the objects needed to be checked.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("pycharm")" alt="Unity Icon">
+                <img class="feature-icon" src="@IconRef.GetIcon("python")" alt="C# Icon">
+            </div>
+            <div class="feature-title">PyCharm + Python</div>
+            <p class="feature-desc">
+                ADD THIS FROM LAPTOP
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("OpenCV")" alt="Unity Icon">
+            </div>
+            <div class="feature-title">OpenCV</div>
+            <p class="feature-desc">
+                ADD THIS FROM LAPTOP
+            </p>
+        </div>
+    </div>
+</section>
 <hr class="section-divider" />
 <footer>
     <div>© @DateTime.Now.Year Matthew Kenyon — All Rights Reserved</div>
@@ -572,51 +591,22 @@
     </div>
 </footer>
 
-<script>
-    window.renderChart = function (chartId, values) {
-        const el = document.getElementById(chartId);
-        if (!el || !window.Chart) return;
-
-        const ctx = el.getContext('2d');
-
-        // Destroy previous chart if it exists
-        if (el._chartInstance) {
-            el._chartInstance.destroy();
-        }
-
-        el._chartInstance = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['iPhone', 'iPad', 'Desktop'], // used only for tooltips
-                datasets: [{
-                    data: values,
-                    backgroundColor: ['#48dfcc', '#24b0a0', '#018276'], // green, blue, orange
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                cutout: '65%',
-                animation: { duration: 700 },
-                plugins: {
-                    legend: { display: false }, // hides labels above
-                    tooltip: { enabled: true }   // keeps hover tooltips
-                }
-            }
-        });
-    };
-</script>
-
-
-
 @code {
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("renderChart", "grade", new object[] { 231, 36, 18 });
+            // Example: Dissertation chart (marksChart) at 85%
+            await JS.InvokeVoidAsync("renderChart", "dissertation", 78.5);
+
+            // Example: Oral Examination chart (sessionsChart) at 90%
+            await JS.InvokeVoidAsync("renderChart", "poster", 82.5);
+            // Example: Oral Examination chart (sessionsChart) at 90%
+            await JS.InvokeVoidAsync("renderChart", "proposal", 77.25);
+            // Example: Oral Examination chart (sessionsChart) at 90%
+            await JS.InvokeVoidAsync("renderChart", "presentation", 90);
+            // …add more as needed
         }
     }
+
 }

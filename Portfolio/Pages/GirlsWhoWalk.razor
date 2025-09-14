@@ -1,4 +1,4 @@
-﻿@page "/Applications/bucketconnect"
+﻿@page "/Applications/girlswhowalk"
 @using Portfolio.Pages
 @using Portfolio.Utilities
 @inject IJSRuntime JS
@@ -116,15 +116,17 @@
 </div>
 
 <!-- Section 1: Hero -->
-<img src="Images/Bucket Connect Cover.png" alt="Banner Image" class="main-banner" />
-<h1 id="about">Bucket Connect</h1>
+<img src="Images/Girls Who Walk Logo Phone.png" alt="Banner Image" class="main-banner" />
+<h1 id="about">Girls Who Walk App</h1>
 <p class="description">
-    I’m a passionate software developer dedicated to creating intuitive, impactful programs that assist people.
+    Girls Who Walk helps women discover local walking groups, make new friends, 
+    and explore their area safely. Whether you want to get active, connect with others, 
+    or simply enjoy the outdoors, the app makes it easy to join walks in your community.
 
     <br /><br />
 
-    I attended Newcastle University, where I was awarded the Degree of Masters of Computing with First Class Honours in
-    Computer Science (Game Engineering).
+    It was developed to help my girlfriend with the workload of running one of these groups,
+    and we believed that it could help other group leaders facing the same problems.
 </p>
 
 <hr class="section-divider" />
@@ -235,12 +237,13 @@
     }
     /* Girls Who Walk */
 
-    /* Note to the right of the chart */
     .stats-note {
-        max-width: 500px;
-        line-height: 1.7;
-        opacity: 0.95;
-    }
+    max-width: 500px;
+    line-height: 1.7;
+    opacity: 0.95;
+    text-align: center;
+}
+
 
     /* When the legend wraps under the chart (tablet / narrow widths), center it */
     @@media (max-width: 1000px) {
@@ -262,7 +265,6 @@
         }
     }
 
-    /* Ensure desktop stays left-aligned when space allows */
     @@media (min-width: 1001px) {
         .stats-text {
             text-align: left;
@@ -273,9 +275,11 @@
             }
 
         .stats-note {
-            text-align: left;
+            text-align: center;
         }
+        /* was left */
     }
+
 </style>
 
 <div class="stats-section" id="games">
@@ -286,7 +290,7 @@
             <div class="chart-item">
                 <div class="chart-container">
                     <canvas id="grade"></canvas>
-                    <div class="chart-value" id="gradeValue">@DownloadStats.BucketConnectDownloads</div>
+                    <div class="chart-value" id="gradeValue">@DownloadStats.GirlsWhoWalkDownloads</div>
                 </div>
                 <p class="chart-title">Overall Grade</p>
             </div>
@@ -441,7 +445,7 @@
 </style>
 
 <section class="image-text-section">
-    <img src="Images/Cover 1.png" alt="Project Screenshot" />
+    <img src="Images/Walk Graphic.png" alt="Project Screenshot" />
     <div class="image-text-content">
         <h2>Features</h2>
         <p>
@@ -461,10 +465,10 @@
             or replay using voice controls.
         </p>
     </div>
-    <img src="Images/Cover 2.png" alt="Project Screenshot" />
+    <img src="Images/Connect Graphic.png" alt="Project Screenshot" />
 </section>
 <section class="image-text-section">
-    <img src="Images/Cover 3.png" alt="Project Screenshot" />
+    <img src="Images/Customise Graphic.png" alt="Project Screenshot" />
     <div class="image-text-content">
         <h2>Scene</h2>
         <p>
@@ -473,7 +477,7 @@
             or replay using voice controls.
         </p>
     </div>
-
+    
 </section>
 
 <hr class="section-divider" />
@@ -518,7 +522,15 @@
                 Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
             </p>
         </div>
-
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("googleplay")" alt="Unity Icon">
+            </div>
+            <div class="feature-title">Google Play Store</div>
+            <p class="feature-desc">
+                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+            </p>
+        </div>
 
         <div class="feature-card">
             <div class="feature-icons">
@@ -590,14 +602,13 @@
                 labels: ['iPhone', 'iPad', 'Desktop'], // used only for tooltips
                 datasets: [{
                     data: values,
-                    backgroundColor: ['#48dfcc', '#24b0a0', '#018276'], // green, blue, orange
+                    backgroundColor: ['#e8869e', '#e57591', '#de607d'], // green, blue, orange
                     borderWidth: 0
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%',
                 cutout: '65%',
                 animation: { duration: 700 },
                 plugins: {
@@ -616,7 +627,7 @@
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("renderChart", "grade", new object[] { 231, 36, 18 });
+            await JS.InvokeVoidAsync("renderChart", "grade", new object[] { 95, 5, 4 });
         }
     }
 }

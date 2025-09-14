@@ -1,746 +1,776 @@
-﻿@page "/GamesPlus"
+﻿@page "/Games"
+@using Portfolio.Models
+@using Portfolio.Utilities
 
+<!-- Layout & App Bar (Section 1) -->
 <style>
-    * {
-        margin: -8px;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    html, body {
-        margin: -8px;
-        padding: 0;
-        height: 100%;
-        width: 102%;
-        overflow-x: hidden;
-        font-family: 'Segoe UI', sans-serif;
-        background-color: #2d2969;
-    }
-
+    /* Page & global typography */
     body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #420f22;
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+        text-align: center;
     }
 
-    .hero-section {
-        position: relative;
-        width: 100%;
-        padding-top: 56.25%; /* 16:9 aspect ratio */
-        background-image: url('Images/Purple Games Illustrated Cover.png');
-        background-size: cover;
-        background-position: 30% top;
-        background-repeat: no-repeat;
-    }
-
-    /* App Bar overlays hero-section */
+    /* App bar */
     .app-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 60px;
-        color: white;
+        background-color: #2e0b18;
         display: flex;
-        align-items: center;
-        padding: 36px;
-        font-size: 1.25rem;
-        font-weight: 600;
-        z-index: 10; /* above hero text */
-        margin-top: 8px;
         justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
     }
 
         .app-bar .logo {
             font-weight: 700;
+            font-size: 1.25rem;
         }
 
         .app-bar nav {
             display: flex;
-            gap: 24px;
+            gap: 20px;
         }
 
             .app-bar nav a {
                 color: white;
                 text-decoration: none;
                 font-weight: 600;
-                cursor: pointer;
                 padding: 8px 12px;
                 border-radius: 4px;
-                transition: background-color 0.3s;
+                transition: background-color .3s;
             }
 
-                .app-bar nav a:hover,
-                .app-bar nav a.active {
-                    background-color: #971d21; /* your deep red highlight */
-                    color: white;
+                .app-bar nav a:hover {
+                    background-color: #971d21;
                 }
 
-    .new-section {
-        background-color: #2d2969;
-        width: 100%;
-        padding: 80px 20px; /* Adds 80px space above and below, 20px left/right */
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        color: white;
-        font-size: 1.5rem;
-        flex-direction: column;
-    }
-
-
-        .new-section h2 {
-            font-size: 2.5rem; /* or 3rem if you want it even bigger */
-            margin-bottom: 16px;
-            font-weight: 700;
-            color: white;
-        }
-
-
-        .new-section p, .new-section ul {
-            max-width: 700px;
-            line-height: 1.6;
-            font-weight: 400;
-            color: white;
-        }
-
-        .new-section p {
-            text-align: center;
-            margin: 0 0 16px; /* remove auto side margins */
-        }
-
-    .image-section {
-        position: relative;
-        width: 100%;
+    /* Hero */
+    img.main-banner {
+        width: 95%;
+        max-width: 1200px;
         height: auto;
-        overflow: hidden;
-        background-color: #db6044;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        margin: 80px 0 20px 0;
+        border-radius: 20px;
     }
 
-    .background-img {
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    p.description {
+        font-size: 1.2rem;
+        font-weight: 400;
+        max-width: 800px;
+        margin: 12px auto 30px auto; /* 👈 auto centers the block */
+        line-height: 1.6;
+        text-align: center; /* 👈 centers the text inside */
+    }
+
+    /* Divider */
+    hr.section-divider {
+        border: none;
+        height: 2px;
+        width: 80%;
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #e7571d;
+        border-radius: 2px;
+    }
+
+    /* Collapsible (kept in case you need it later) */
+    .collapsible {
+        max-width: 1000px;
+        width: 90%;
+        margin: 0 auto 8px auto;
+    }
+
+    .collapsible-header {
         width: 100%;
-        height: 400px;
-        object-fit: cover;
-    }
-
-    .overlay-content {
-        z-index: 2;
-        color: white;
-        text-align: center;
-        max-width: 700px;
-        padding: 0px ;
-    }
-
-        .overlay-content h2 {
-            font-size: 2.5rem;
-            margin: -200px 0 16px; /* was 32px 0 16px */
-            font-weight: 700;
-        }
-
-        .overlay-content p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-
-    .image-row {
         display: flex;
-        justify-content: center;
         align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 30px;
+        justify-content: space-between;
+        gap: 12px;
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 12px 16px;
+        cursor: pointer;
+        text-align: left;
+        transition: background .2s ease, border-color .2s ease;
     }
 
-    .image-container img {
-        width: 300px;
-        max-width: 100%;
-        height: auto;
-        object-fit: cover;
-        border-radius: 8px;
-        transition: transform 0.3s ease;
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
 
-    .small-image img {
-        width: 200px;
+    .collapsible-title {
+        font-size: 1.25rem;
+        font-weight: 700;
     }
 
-    .gallery-button {
-        text-align: center;
-        margin-bottom: 40px;
+    .collapsible-icons {
+        display: inline-flex;
+        gap: 10px;
     }
 
-        .gallery-button button {
-            background-color: #420f22;
-            color: white;
-            font-weight: 600;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        .collapsible-icons img {
+            width: 40px;
+            height: 40px;
+            opacity: .9;
         }
 
-            .gallery-button button:hover {
-                background-color: #c02d2d;
+            .collapsible-icons img:hover {
+                opacity: 1;
             }
 
-
-    .games-header {
-        font-size: 2.5rem;
-        color: #971d21;
-        font-weight: bold;
+    .chevron {
+        transition: transform .18s ease;
+        opacity: .9;
     }
 
-    .filter-bar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        align-items: center;
-        margin-bottom: 24px;
-    }
-
-        .filter-bar select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: none;
-            background-color: #4f0c18;
-            color: white;
-            font-size: 1rem;
-            min-width: 160px;
+        .chevron.open {
+            transform: rotate(180deg);
         }
 
-    .selected-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-left: auto;
+    .collapsible-panel {
+        overflow: hidden;
+        max-height: 0;
+        background: transparent;
+        transition: max-height .25s ease, background .25s ease;
     }
 
-    .tag {
-        border-radius: 50%;
-        padding: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .tag:hover {
-            background-color: #ffb733;
+        .collapsible-panel.open {
+            max-height: var(--panel-max, 1500px);
+            background: rgba(255,255,255,0.02);
+            border-radius: 0 0 12px 12px;
         }
 
-    .game-card {
-        border-radius: 12px;
-        padding: 24px;
-        margin: 40px 8px; /* Top/bottom: 40px, left/right: 8px */
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        color: white;
+    .collapsible-inner {
+        padding: 12px 0 0 0;
     }
 
-
-
-    .game-title {
-        font-size: 3rem; /* Increased from 1.5rem */
-        font-weight: bold;
-        margin-bottom: 8px;
+    /* Showcase (kept) */
+    .showcase-section {
+        max-width: 1000px;
+        width: 90%;
+        margin: 0 auto 60px auto;
         text-align: center;
-        color: white;
     }
 
-
-
-    .tag-row {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 24px; /* Increased from 8px */
-        margin-bottom: 32px;
-    }
-
-
-        .tag-row img {
-            width: 36px;
-            height: 36px;
-        }
-
-    .card-content {
-        display: flex;
-        flex-direction: row;
-        gap: 24px;
-        align-items: flex-start;
-    }
-
-    .game-thumbnail {
-        width: 300px;
-        height: auto;
-        object-fit: cover;
-        border-radius: 8px;
-        background-color: #444;
-    }
-
-    .game-info {
-        flex: 1;
-        padding: 0 16px;
-    }
-
-
-
-
-    .game-description {
-        color: #d3d3d3;
-        line-height: 1.5;
-        margin-bottom: 20px;
-        font-size: 1.4rem;
-    }
-
-    .game-button {
-        margin-top: 10px;
-        color: black;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-        .game-button:hover {
-            background-color: #ffb733;
-        }
-
-    .tag-icon {
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-        display: inline-block;
-        margin: 2px;
-    }
-
-    .section-divider {
-        position: relative;
+    .showcase-image {
         width: 100%;
-        padding-top: 28.125%; /* 16:4 aspect ratio — adjust as needed */
-        background-image: url('Images/Wave 2.png');
-        background-size: cover;
-        background-position: center top;
-        background-repeat: no-repeat;
-        height: 100px;
-
+        max-width: 800px;
+        border-radius: 16px;
+        margin: 0 auto 20px auto;
+        display: block;
     }
 
-    .game-info-columns {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 48px 80px; /* row-gap, column-gap */
-        max-width: 1200px;
-        margin: 64px auto;
-        padding: 0 32px;
-    }
-
-    .info-column {
+    .showcase-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        max-width: 800px;
+        margin: 0 auto 16px auto;
+        opacity: .95;
         text-align: left;
     }
 
-    .info-title {
+    .stats-subtitle {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 16px auto 8px auto;
+        max-width: 800px;
+        text-align: left;
+        opacity: .95;
+    }
+
+    .showcase-stats {
+        max-width: 800px;
+        margin: 8px auto 24px auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(255,255,255,.05);
+        padding: 12px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .stat-header {
         display: flex;
         align-items: center;
-        font-weight: 700;
-        font-size: 2rem;
-        margin-bottom: 12px;
-        color: white;
+        gap: 8px;
+        margin-bottom: 6px;
+        justify-content: center;
     }
 
-        .info-title img {
-            width: 28px;
-            height: 28px;
-            margin-right: 12px;
-            filter: brightness(0) invert(1);
+    .stat-title {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #e7571d;
+    }
+
+    .stat-icon {
+        width: 24px;
+        height: 24px;
+        opacity: .9;
+    }
+
+    @@media (max-width: 768px) {
+        .showcase-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .showcase-btn {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        background: #e7571d;
+        color: #fff;
+        box-shadow: 0 6px 18px rgba(231,87,29,.35);
+    }
+
+    /* ===== New Section Styles ===== */
+    .feature-section {
+        width: 90%;
+        max-width: 1000px;
+        margin: 40px auto 64px auto;
+        text-align: left;
+    }
+
+    .feature-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 16px;
+    }
+
+    .feature-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .feature-icons {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+        .feature-icons img {
+            width: 36px;
+            height: 36px;
+            filter: drop-shadow(0 0 0 rgba(0,0,0,0.0));
+            opacity: .95;
+            transition: transform .15s ease, opacity .15s ease;
         }
 
-    .info-text {
-        font-size: 1.1rem;
-        line-height: 1.7;
-        color: #f3f3f3;
+            .feature-icons img:hover {
+                transform: translateY(-2px);
+                opacity: 1;
+            }
+
+    .feature-image {
+        width: 100%;
+        max-width: 1000px;
+        height: auto;
+        border-radius: 16px;
+        display: block;
+        margin: 30px auto 30px auto;
     }
 
+    .feature-subtitle {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin: 30px 0 10px 0;
+    }
+
+    .feature-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        opacity: .95;
+        max-width: 900px;
+    }
+
+    @@media (max-width: 640px) {
+        .feature-head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .feature-icons {
+            justify-content: flex-start;
+        }
+    }
+
+    /* ===== Search styles ===== */
+    .search-section {
+        width: 90%;
+        max-width: 1000px;
+        margin: 10px auto 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: 600px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        font-size: 1rem;
+        outline: none;
+        transition: box-shadow .15s ease, border-color .15s ease;
+    }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-input:focus {
+            border-color: #e7571d;
+            box-shadow: 0 0 0 4px rgba(231,87,29,.18);
+        }
 </style>
 
-
-<div class="hero-section">
-    <div class="app-bar">
-        <div class="logo">Matthew Kenyon</div>
-        <nav>
-            <a href="#games" class="active">Games</a>
-            <a href="#apps">Apps</a>
-            <a href="#about">About</a>
-        </nav>
-    </div>
+<div class="app-bar">
+    <div class="logo">Matthew Kenyon</div>
+    <nav>
+        <a href="#games">Games</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
+    </nav>
 </div>
 
-<div class="new-section">
-    <h2>Games I've Developed</h2>
-    <p>
-        From pixel-perfect platformers to procedurally generated worlds, these games showcase my passion for gameplay systems, design, and technical depth. Each project is built with performance, polish, and player experience in mind.
-    </p>
-</div>
+<!-- Hero -->
+<img src="Images/Games Cover 2.png" alt="Banner Image" class="main-banner" />
+<h1 id="about">Games</h1>
+<p class="description">Passionate software developer specialising in game development, procedural generation, and full-stack projects.</p>
 
-<!-- PAGE CONTENT -->
-<div class="games-page">
+<hr class="section-divider" />
 
-    <!-- Castle Climbers -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Castle Climbers</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C#", "Firebase", "JavaScript", "Xcode", "App Store" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
+<!-- ===== Search Bar ===== -->
+<section class="search-section" aria-label="Search games">
+    <input type="search"
+           id="gameSearch"
+           class="search-input"
+           placeholder="Search by title (e.g., Castle, Platformer, CMake)…"
+           aria-label="Search game titles" />
+</section>
+
+<!-- ===== Passionate Software Grid ===== -->
+<section class="passion-section" id="games-grid" style="--cols: 3;">
+    <div class="passion-grid" id="gamesGrid">
+        <!-- Card 1 -->
+        <article class="passion-card" data-tags="castle climbers,unity,c#,firebase,javascript,xcode,appstore,platformer,procedural">
+            <h3 class="card-title">Castle Climbers</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+                <img src="@IconRef.GetIcon("firebase")" alt="Firebase" />
+                <img src="@IconRef.GetIcon("javascript")" alt="JavaScript" />
+                <img src="@IconRef.GetIcon("xcode")" alt="Xcode" />
+                <img src="@IconRef.GetIcon("appstore")" alt="Apple App Store" />
+            </div>
+
+            <img class="card-image" src="Images/Castle Climbers Background.png" alt="Castle Climbers Screenshot">
+
+            <p class="card-desc">
+                A vertical 2D  adventure with procedural environments, custom characters and competitive challenges.
+            </p>
+
+            <a class="card-btn" href="#castle">View Details</a>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="passion-card" data-tags="stroke recovery,unity,c#,pycharm,python,opencv,computer vision,health">
+            <h3 class="card-title">Game for Recovery of Stroke</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+                <img src="@IconRef.GetIcon("pycharm")" alt="PyCharm" />
+                <img src="@IconRef.GetIcon("python")" alt="Python" />
+                <img src="@IconRef.GetIcon("opencv")" alt="OpenCV" />
+            </div>
+
+            <img class="card-image" src="Images/Blue 2.jpeg" alt="Girls Who Walk App">
+
+            <p class="card-desc">
+                An interactive minigame experience built to assist people affected by stroke, praised by health professionals for its background research.
+            </p>
+
+            <a class="card-btn" href="/games/strokegame">View Details</a>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="passion-card" data-tags="procedural generation,unity,c#,excel,noise,caves,biomes,lightmap">
+            <h3 class="card-title">Procedurally Generated 2D Worlds</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+                <img src="@IconRef.GetIcon("excel")" alt="Excel" />
+            </div>
+
+            <img class="card-image" src="Images/Cover.png" alt="Procedural Generation Preview">
+
+            <p class="card-desc">
+                A procedurally generated underwater world, with cave systems, ore and flora generation, lightmaps and impressive tilemapping.
+            </p>
+
+            <a class="card-btn" href="#procgen">View Details</a>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="passion-card" data-tags="car arcade,unity,c#">
+            <h3 class="card-title">Car Arcade Game</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/Car Game.png" alt="Car Arcade Game">
+
+            <p class="card-desc">
+                A simple arcade game with cars and increasing difficulty, based on popular road-trip games such as cheese car or slug bug.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="passion-card" data-tags="top down shooter,unity,c#">
+            <h3 class="card-title">Top Down Shooter</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/Uni Game 1.png" alt="Top Down Shooter">
+
+            <p class="card-desc">
+                A top down shooter with advanced AI enemies, increasing difficult levels, and an infitely generated map with a variation of rooms and objects.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="passion-card" data-tags="unity world,unity,c#">
+            <h3 class="card-title">Unity World</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/Uni Unity Scene.png" alt="Unity World">
+
+            <p class="card-desc">
+                An immersive 3D Unity world, made with custom assets, advanced lighting techniques, moving parts and particle systems.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 7 -->
+        <article class="passion-card" data-tags="cmake world,cmake,c++,toolchain,build">
+            <h3 class="card-title">Cmake World</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("cmake")" alt="CMake" />
+                <img src="@IconRef.GetIcon("c++")" alt="C++" />
+            </div>
+
+            <img class="card-image" src="Images/Scene.png" alt="CMake World">
+
+            <p class="card-desc">
+                An immersive 3D Cmake world, made with custom assets, heightmaps, lighting systems, moving parts and advanced shaders.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 8 -->
+        <article class="passion-card" data-tags="university project,cmake,c++,group,tooling">
+            <h3 class="card-title">Uni Cmake Project</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("cmake")" alt="CMake" />
+                <img src="@IconRef.GetIcon("c++")" alt="C++" />
+            </div>
+
+            <img class="card-image" src="Images/Scene 2.png" alt="Uni CMake Project">
+
+            <p class="card-desc">
+                Server-side Blazor, custom components, responsive layouts, and CI/CD to Azure App Service.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 9 -->
+        <article class="passion-card" data-tags="group project,cmake,c++,epic,games,github,collaboration">
+            <h3 class="card-title">Uni Cmake Group Project</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("cmake")" alt="CMake" />
+                <img src="@IconRef.GetIcon("c++")" alt="C++" />
+                <img src="@IconRef.GetIcon("epic")" alt="Epic Games" />
+                <img src="@IconRef.GetIcon("github")" alt="GitHub" />
+            </div>
+
+            <img class="card-image" src="Images/Scene 2.png" alt="Uni CMake Group Project">
+
+            <p class="card-desc">
+                Server-side Blazor, custom components, responsive layouts, and CI/CD to Azure App Service.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 10 -->
+        <article class="passion-card" data-tags="conway game of life,c++,cellular automata,simulation">
+            <h3 class="card-title">Conway's Game of Life</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("c++")" alt="C++" />
+            </div>
+
+            <img class="card-image" src="Images/Conways Game Of Life.png" alt="Conway's Game of Life">
+
+            <p class="card-desc">
+                A simple representation of Conway's Game of life within C++, which demonstrates how all the main structures are generated.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+
+        <!-- Card 11 -->
+        <article class="passion-card" data-tags="2d platformer,unity,c#">
+            <h3 class="card-title">2D Platformer</h3>
+
+            <div class="tech-icons">
+                <img src="@IconRef.GetIcon("unity")" alt="Unity" />
+                <img src="@IconRef.GetIcon("c#")" alt="C#" />
+            </div>
+
+            <img class="card-image" src="Images/Scene 2.png" alt="2D Platformer">
+
+            <p class="card-desc">
+                Server-side Blazor, custom components, responsive layouts, and CI/CD to Azure App Service.
+            </p>
+
+            <a class="card-btn" href="#portfolio">View Details</a>
+        </article>
+    </div>
+</section>
+
+<style>
+    /* Base grid (desktop) */
+    .passion-grid {
+        --cols: 3; /* default; you can change to any r */
+        display: grid;
+        grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+    }
+
+    .passion-card {
+        background: rgba(255,255,255,.05);
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center; /* 👈 centers title + desc */
+    }
+
+        .passion-card .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0 0 6px 0;
+        }
+
+        .passion-card .tech-icons {
+            display: flex;
+            justify-content: center; /* 👈 centers icons row */
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+            .passion-card .tech-icons img {
+                width: 22px; /* 👈 smaller icons */
+                height: 22px;
+                opacity: .9;
+                transition: transform .15s ease, opacity .15s ease;
             }
-        </div>
-        <div class="card-content">
-            <img src="images/Castle Climbers Background.png" class="game-thumbnail" alt="Castle Climbers" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"Castle Climbers is an infinite 2D platformer I developed as my first big coding project,
-                                        which spanned over the <span style='color:#911f1f; font-weight:bold;'>3 years</span>. It helped me properly
-                                        get to grips with Unity and C#. It was also my first project using a backend server through firebase, as I wanted
-                                        to add multiplayer functionality. Castle Climbers was also my first game to be
-                                        published on the app store through the use of Xcode.")
-                </div>
-               
-            </div>
-        </div>
-    </div>
 
-    <div class="game-info-columns">
-        <div class="info-column">
-            <div class="info-title">
-                <img src="Images/Icons/Download.png" alt="Gameplay" />
-                <span>Downloads</span>
-            </div>
-            <div class="info-text">
-                187
-            </div>
-        </div>
+                .passion-card .tech-icons img:hover {
+                    transform: translateY(-1px);
+                    opacity: 1;
+                }
 
-        <div class="info-column">
-            <div class="info-title">
-                <img src="Images/Icons/Time.png" alt="Stats" />
-                <span>Rating</span>
-            </div>
-            <div class="info-text">
-                4.9
-            </div>
-        </div>
+        .passion-card .card-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 auto; /* 👈 center block image */
+        }
 
+        .passion-card .card-desc {
+            margin: 6px 0 10px 0;
+            opacity: .95;
+            line-height: 1.6;
+            text-align: center; /* 👈 explicitly center text */
+        }
 
-        <div class="info-column">
-            <div class="info-title">
-                <img src="icons/code.svg" alt="Tech Stack" />
-                <span>Time Spent</span>
-            </div>
-            <div class="info-text">
-                88.4hrs
-            </div>
-        </div>
+        .passion-card .card-btn {
+            display: inline-block;
+            margin: 0 auto; /* 👈 center button */
+            padding: 8px 12px; /* 👈 smaller button */
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem; /* 👈 slightly smaller text */
+            text-decoration: none;
+            background: #e7571d;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(231,87,29,.35);
+            transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+        }
 
-       
-        <div class="info-column">
-            <div class="info-title">
-                <img src="icons/users.svg" alt="Audience" />
-                <span>Games Played</span>
-            </div>
-            <div class="info-text">
-                2445
-            </div>
-        </div>
-
-        <div class="info-column">
-            <div class="info-title">
-                <img src="icons/star.svg" alt="Highlights" />
-                <span>Jumps</span>
-            </div>
-            <div class="info-text">
-                126308
-            </div>
-        </div>
-
-        <div class="info-column">
-            <div class="info-title">
-                <img src="icons/bug.svg" alt="Challenges" />
-                <span>Distance Travelled</span>
-            </div>
-            <div class="info-text">
-                883,519m travelled
-            </div>
-        </div>
-    </div>
-
-    <NavLink class="game-button" href="/Games/CastleClimbers" style="background-color:#911f1f; color:black;">View Details</NavLink>
-
-
-
-
-    <!-- Game for recovery of Stroke -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Game for recovery of Stroke</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C#", "Pycharm", "OpenCV" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
+            .passion-card .card-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(231,87,29,.45);
+                opacity: 1;
             }
-        </div>
-        <div class="card-content">
-            <img src="images/Hand Copy Cover.png" class="game-thumbnail" alt="Stroke Game" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"My first game for health was a project that I presented for my dissertation at the end of my Bachelor's degree. It achieved a <span style='color:#911f1f; font-weight:bold;'> first class grade (80%) </span> and was  <span style='color:#911f1f; font-weight:bold;'> praised by health
-                                        professionals </span> after presentation, due to its accurate choice of movements and thoughtful investigation into muscles in the hand that were affected by reduced motor control. The psychological
-                                        side was also praised, as the professionals stated that the choice of colour and the analysis system perfectly suit the act of rehabilitation. This project was also mentioned during my
-                                        graduation from my Master's Degree, and was praised for adapting gameplay for the real world.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#ffa500; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
 
-    <!-- Procedural World -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Procedurally Generated 2D world</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C#", "Excel" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
+    /* Responsive fallbacks */
+    @@media (max-width: 1024px) {
+        .passion-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .passion-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Lightweight filtering logic (TITLE ONLY) -->
+<script>
+    (function () {
+        const input = document.getElementById('gameSearch');
+        const cards = Array.from(document.querySelectorAll('.passion-card'));
+
+        function filterCards() {
+            const q = (input.value || '').trim().toLowerCase();
+
+            cards.forEach(card => {
+                const title = (card.querySelector('.card-title')?.textContent || '').toLowerCase();
+                const match = q === '' || title.includes(q);
+                card.style.display = match ? '' : 'none';
+            });
+        }
+
+        // Debounce for nicer UX on fast typing
+        let t = null;
+        input.addEventListener('input', () => {
+            clearTimeout(t);
+            t = setTimeout(filterCards, 120);
+        });
+
+        // Allow clearing with Esc
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                input.value = '';
+                filterCards();
             }
-        </div>
-        <div class="card-content">
-            <img src="images/Cover.png" class="game-thumbnail" alt="Procedural World" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"A 2D procedurally generated underwater world with advanced terrain generation, including the use of noise and cellular automata for caves and ores, as well as a detailed light system to simulate
-                                        the lights penetration through the water, terrain and cave systems. To enhance efficiency, the world loads through chunks, meaning the user has a smoother experience, and the world can be made bigger. The project
-                                        was originally a University submission, which achieved <span style='color:#4169E1; font-weight:bold;'> 79% </span>, and with further development has turned into a detailed 2D survival game.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#4169E1; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
+        });
 
-    <!-- Car Arcade Game -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Car Arcade Game</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C#" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
+        // Initial state (show all)
+        filterCards();
+    })();
+</script>
+
+<!-- Footer -->
+<style>
+    footer {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        color: #ddd;
+        font-size: 0.95rem;
+        margin-top: 40px;
+    }
+
+        footer a {
+            color: #e7571d;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+            footer a:hover {
+                color: #fff;
             }
-        </div>
-        <div class="card-content">
-            <img src="images/Car Game.png" class="game-thumbnail" alt="Car Game" />
-            <div class="game-info">
-                <div class="game-description">A 2D survival and crafting game set in a procedurally generated underwater world.</div>
-                <NavLink class="game-button" href="#" style="background-color:#af2229; color:black;">View Details</NavLink>
-            </div>
-        </div>
+
+    .footer-links {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+</style>
+<hr class="section-divider" />
+<footer>
+    <div>© @DateTime.Now.Year Matthew Kenyon — All Rights Reserved</div>
+    <div class="footer-links">
+        <a href="mailto:matthew.kenyon@example.com">Email</a>
+        <a href="https://github.com/mattkenyon01" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/matthew-kenyon" target="_blank">LinkedIn</a>
     </div>
-
-    <!-- Top Down Shooter -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title"><span style='color:#8c3c00;'>Top Down Shooter</span></div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C#" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/Uni Game 1.png" class="game-thumbnail" alt="Top Down Shooter" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"A top down shooter that was a project for University, which utilised procedurally generating rooms to create an infinite map to explore, with a minimap to track location.
-                                        It also featured complex AI enemies with state machines, as well as flocking, dynamic difficulty and complex physics. All these features enabled me to achieve a grade of <span style='color:#8c3c00; font-weight:bold;'>88% </span> on this assignment.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#8c3c00; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-    <!-- Unity World -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title"><span style='color:#209f1a;'>Unity World</span></div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C#" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/Uni Unity Scene.png" class="game-thumbnail" alt="Unity World" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"This was a University project that required us to make a 3D world in Unity with imported assets, shaders, advanced light sources, particles, weather systems and moving objects to bring
-                                        the environment to life, whilst also keeping the framerate and memory occupied low. I achieved a <span style='color:#209f1a; font-weight:bold;'> 70%</span>, and was highlighted towards the importance
-                                        of managing the efficiency to enhance playability.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#209f1a; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-    <!-- CMake World -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title"><span style='color:#489db7;'>CMake World</span></div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "CMake", "C++" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/Scene.png" class="game-thumbnail" alt="CMake World" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"This was a University project similar to the Unity world, but this was required to be completed in CMake. The project made use of shaders, heightmaps, moving objects, particle effects,
-                                        advanced lighting and object placement and texturing. For the project I got a grade of <span style='color:#489db7; font-weight:bold;'> 75% </span>.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#489db7; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-    <!-- Uni CMake Project -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Uni CMake Project</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "CMake", "C++" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/Scene 2.png" class="game-thumbnail" alt="Uni CMake Project" />
-            <div class="game-info">
-                <div class="game-description">86%</div>
-                <NavLink class="game-button" href="#" style="background-color:#ffa500; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-    <!-- Uni Group Project -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Uni Group Project</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "CMake", "C++", "Epic Online Services", "Github" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/Scene 2.png" class="game-thumbnail" alt="Uni Group Project" />
-            <div class="game-info">
-                <div class="game-description">72%</div>
-                <NavLink class="game-button" href="#" style="background-color:#ffa500; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-    <!-- Conway's Game of Life -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">Conway's Game of Life</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "C++" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/Scene 2.png" class="game-thumbnail" alt="Conway's Game of Life" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"For a University project, I was required to recreate Conway's Game of Life, which simulated the lifetime of cells in a grid depending on their neighbours. Due to the accuracy of the program, and the evidence that
-                                        it was able to regenerate all of the common structures from the game, I was given a grade of <span class='highlight'> 100%</span>.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#ffa500; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2D Platformer -->
-    <div class="section-divider"></div>
-    <div class="game-card">
-        <div class="game-title">2D Platformer</div>
-        <div class="tag-row">
-            @foreach (var tag in new List<string> { "Unity", "C++" })
-            {
-                <img src="@GetIconForTag(tag)" alt="@tag" />
-            }
-        </div>
-        <div class="card-content">
-            <img src="images/GWW Icon.jpg" class="game-thumbnail" alt="2D Platformer" />
-            <div class="game-info">
-                <div class="game-description">
-                    @((MarkupString)$@"This was the first ever game I made, which was used as coursework for my A levels, which achieved an A* grade. It was a similar style game to Super Mario, and had multiple levels
-                                        and different obstacles and interactive elements. It helped me understand the core concepts of Unity, as well as the interface and its capabilities.")
-                </div>
-                <NavLink class="game-button" href="#" style="background-color:#ffa500; color:black;">View Details</NavLink>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-@code {
-    private List<string> selectedTags = new();
-
-    private string GetIconForTag(string tag) => tag switch
-    {
-        "Games" => "icons/gamepad.svg",
-        "Software" => "icons/code.svg",
-        "Pycharm" => "images/Pycharm Icon.png",
-        "C#" => "images/C Icon.png",
-        "c" => "images/C Icon.png",
-        "Supabase" => "images/Supabase.png",
-        "Azure" => "images/Azure Icon.png",
-        ".NET" => "images/NET.png",
-        "HTML" => "images/HTML.png",
-        "CSS" => "images/CSS.png",
-        "Github" => "images/Github Icon.png",
-        "Epic Online Services" => "images/Epic Games Icon.png",
-        "JavaScript" => "images/Javascript.webp",
-        "CMake" => "images/Cmake.png",
-        "C++" => "images/C+ Icon.png",
-        "Flutter" => "images/Flutter Icon.png",
-        "Dart" => "images/Dart Icon.webp",
-        "Unity" => "images/Unity Icon.webp",
-        "Google Cloud" => "images/Google Cloud.png",
-        "Document AI" => "images/Google Document AI.png",
-        "Blazor" => "images/Blazor Icon.png",
-        "Google AdMob" => "images/Google Ad Mob.webp",
-        "OpenCV" => "images/OpenCV Icon.png",
-        "Firebase" => "images/Firebase Icon.png",
-        "Xcode" => "images/Xcode Icon.webp",
-        "App Store" => "images/App Store Icon.png",
-        "React" => "images/React.webp",
-        "Excel" => "images/Excel.png",
-        _ => "icons/default.svg"
-    };
-}
+</footer>

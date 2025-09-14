@@ -1,4 +1,4 @@
-﻿@page "/Applications/bucketconnect"
+﻿@page "/Games/unityworld"
 @using Portfolio.Pages
 @using Portfolio.Utilities
 @inject IJSRuntime JS
@@ -116,8 +116,8 @@
 </div>
 
 <!-- Section 1: Hero -->
-<img src="Images/Bucket Connect Cover.png" alt="Banner Image" class="main-banner" />
-<h1 id="about">Bucket Connect</h1>
+<img src="Images/Uni Unity Scene.png" alt="Banner Image" class="main-banner" />
+<h1 id="about">Game for Rehabilitation of Stroke</h1>
 <p class="description">
     I’m a passionate software developer dedicated to creating intuitive, impactful programs that assist people.
 
@@ -279,14 +279,14 @@
 </style>
 
 <div class="stats-section" id="games">
-    <h2>App Production</h2>
+    <h2>University Grades</h2>
     <div class="stats-content">
         <!-- Charts group -->
         <div class="chart-group">
             <div class="chart-item">
                 <div class="chart-container">
                     <canvas id="grade"></canvas>
-                    <div class="chart-value" id="gradeValue">@DownloadStats.BucketConnectDownloads</div>
+                    <div class="chart-value" id="gradeValue">70%</div>
                 </div>
                 <p class="chart-title">Overall Grade</p>
             </div>
@@ -441,7 +441,7 @@
 </style>
 
 <section class="image-text-section">
-    <img src="Images/Cover 1.png" alt="Project Screenshot" />
+    <img src="Images/Uni World 2.png" alt="Project Screenshot" />
     <div class="image-text-content">
         <h2>Features</h2>
         <p>
@@ -461,20 +461,9 @@
             or replay using voice controls.
         </p>
     </div>
-    <img src="Images/Cover 2.png" alt="Project Screenshot" />
+    <img src="Images/Uni World 3.png" alt="Project Screenshot" />
 </section>
-<section class="image-text-section">
-    <img src="Images/Cover 3.png" alt="Project Screenshot" />
-    <div class="image-text-content">
-        <h2>Scene</h2>
-        <p>
-            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
-            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
-            or replay using voice controls.
-        </p>
-    </div>
 
-</section>
 
 <hr class="section-divider" />
 <section class="features-section">
@@ -482,49 +471,10 @@
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("flutter")" alt="Unity Icon">
-                <img class="feature-icon" src="@IconRef.GetIcon("dart")" alt="C# Icon">
+                <img class="feature-icon" src="@IconRef.GetIcon("unity")" alt="Unity Icon">
+                <img class="feature-icon" src="@IconRef.GetIcon("c#")" alt="C# Icon">
             </div>
-            <div class="feature-title">Flutter + Dart</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("firebase")" alt="Unity Icon">
-            </div>
-            <div class="feature-title">Firebase</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("Javascript")" alt="Unity Icon">
-            </div>
-            <div class="feature-title">Javascript</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("xcode")" alt="Unity Icon">
-                <img class="feature-icon" src="@IconRef.GetIcon("appstore")" alt="C# Icon">
-            </div>
-            <div class="feature-title">Xcode + App Store</div>
-            <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
-            </p>
-        </div>
-
-
-        <div class="feature-card">
-            <div class="feature-icons">
-                <img class="feature-icon" src="@IconRef.GetIcon("admob")" alt="Unity Icon">
-            </div>
-            <div class="feature-title">AdMob</div>
+            <div class="feature-title">Unity + C#</div>
             <p class="feature-desc">
                 Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
             </p>
@@ -572,25 +522,29 @@
     </div>
 </footer>
 
+<!-- Simple donut chart renderer (value = percent, remainder = 100 - value) -->
 <script>
-    window.renderChart = function (chartId, values) {
+    window.renderChart = function (chartId, valuePercent) {
         const el = document.getElementById(chartId);
         if (!el || !window.Chart) return;
 
         const ctx = el.getContext('2d');
 
-        // Destroy previous chart if it exists
-        if (el._chartInstance) {
-            el._chartInstance.destroy();
-        }
+        // Clamp 0..100
+        const percent = Math.max(0, Math.min(100, Number(valuePercent) || 0));
+        const remainder = 100 - percent;
+
+        // Destroy previous instance if any
+        if (el._chartInstance) el._chartInstance.destroy();
 
         el._chartInstance = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['iPhone', 'iPad', 'Desktop'], // used only for tooltips
+                labels: ['Achieved', 'Remaining'],
                 datasets: [{
-                    data: values,
-                    backgroundColor: ['#48dfcc', '#24b0a0', '#018276'], // green, blue, orange
+                    data: [percent, remainder],
+                    /* keep transparent page background; donut has its own segment fills */
+                    backgroundColor: ['#4caf50', 'rgba(255,255,255,0.12)'],
                     borderWidth: 0
                 }]
             },
@@ -598,25 +552,26 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 cutout: '65%',
-                cutout: '65%',
                 animation: { duration: 700 },
                 plugins: {
-                    legend: { display: false }, // hides labels above
-                    tooltip: { enabled: true }   // keeps hover tooltips
+                    legend: { display: false },
+                    tooltip: { enabled: true }
                 }
             }
         });
+
+        // Optional center text update if you keep a value element
+        const centerEl = document.getElementById(chartId + 'Value') || document.getElementById('gradeValue');
+        if (centerEl) centerEl.textContent = percent + '%';
     };
 </script>
-
-
 
 @code {
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("renderChart", "grade", new object[] { 231, 36, 18 });
+            await JS.InvokeVoidAsync("renderChart", "grade", 70);
         }
     }
 }
