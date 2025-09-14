@@ -1,4 +1,4 @@
-﻿namespace Portfolio.Pages
+﻿namespace Portfolio.Utilities
 {
     public static class DownloadStats
     {
