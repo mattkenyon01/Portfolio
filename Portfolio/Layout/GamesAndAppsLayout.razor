@@ -1,0 +1,424 @@
+﻿@inherits LayoutComponentBase
+<style>
+
+    /* General Page Inforamtion */
+
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: #420f22;
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+        text-align: center;
+    }
+
+    .navigation-bar {
+        width: 100%;
+        height: 60px;
+        background-color: #2e0b18;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+        .navigation-bar .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .navigation-bar nav {
+            display: flex;
+            gap: 20px;
+        }
+
+            .navigation-bar nav a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+                .navigation-bar nav a:hover {
+                    background-color: #971d21;
+                }
+
+    /* Main Cover Image */
+
+    img.main-banner {
+        width: 95%;
+        max-width: 1200px;
+        height: auto;
+        margin: 80px 0 20px 0;
+        border-radius: 20px;
+    }
+
+    /* Font Details */
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 0 auto;
+        max-width: 800px;
+        width: 100%;
+        padding-inline: 20px;
+        box-sizing: border-box;
+    }
+
+    p.description {
+        font-size: 1.2rem;
+        font-weight: 400;
+        max-width: 800px;
+        width: 100%;
+        margin: 12px auto 30px auto;
+        line-height: 1.6;
+        padding-inline: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Section Divider */
+
+    hr.section-divider {
+        border: none;
+        height: 2px;
+        width: 100%;
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #e7571d;
+        border-radius: 2px;
+        padding-inline: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Graph Stats */
+    .stats-section {
+        max-width: 1000px;
+        width: 100%;
+        margin: 0 auto; /* center the container */
+        padding-inline: 20px; /* gutters */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        flex-wrap: wrap;
+        text-align: center;
+        width: 100%;
+        margin-top: 40px; 
+    }
+
+    .chart-container {
+        width: 180px;
+        height: 180px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .chart-value {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    /* Graph Legend */
+    .stats-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        min-width: 260px; /* desktop look */
+        text-align: left; /* desktop look */
+        margin: 0; /* will be centered by media rule when stacked */
+    }
+
+        .stats-text p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+            justify-content: flex-start; /* desktop look */
+        }
+
+    .legend-square {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .legend-castle {
+        background-color: #911f1f;
+    }
+    /* Castle Climbers */
+    .legend-bucket {
+        background-color: #41d5c3;
+    }
+    /* Bucket Connect */
+    .legend-gww {
+        background-color: #eda193;
+    }
+   
+    /* Girls Who Walk */
+    /* Note to the right of the chart */
+    .stats-note {
+        max-width: 500px;
+        line-height: 1.7;
+        opacity: 0.95;
+    }
+
+    /* When the legend wraps under the chart (tablet / narrow widths), center it */
+    @@media (max-width: 1000px) {
+        .stats-text {
+            min-width: 0;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            padding-inline: 20px;
+            box-sizing: border-box;
+        }
+
+            .stats-text p {
+                justify-content: center;
+            }
+        /* Center the note under the chart on smaller screens */
+        .stats-note {
+            text-align: center;
+        }
+    }
+
+    /* Ensure desktop stays left-aligned when space allows */
+    @@media (min-width: 1001px) {
+        .stats-text {
+            text-align: left;
+        }
+
+            .stats-text p {
+                justify-content: flex-start;
+            }
+    }
+
+    .chart-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart-title {
+        margin-top: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        text-align: center;
+    }
+
+    /*Image and text aligned section */
+
+
+    <!-- ===== Feature Cards (3-column) ===== -->
+
+    .features-section {
+        max-width: 1000px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .features-section h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        margin: 10px 0 22px 0;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        align-items: stretch;
+    }
+
+    .feature-card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 20px 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+            background: rgba(255,255,255,0.08);
+        }
+
+    .feature-icons {
+        display: flex;
+        justify-content: center; /* center them horizontally */
+        gap: 8px; /* space between icons */
+        margin-bottom: 10px;
+    }
+
+        .feature-icons img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            opacity: 0.95;
+        }
+
+    .feature-title {
+        font-weight: 800;
+        font-size: 1.1rem;
+        margin: 4px 0 6px 0;
+        letter-spacing: .2px;
+    }
+
+    .feature-desc {
+        font-size: .98rem;
+        line-height: 1.55;
+        opacity: 0.95;
+        margin: 0;
+        max-width: 32ch; /* keeps tidy line length */
+    }
+
+    /* Responsive */
+    @@media (max-width: 900px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 620px) {
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .image-text-section {
+        max-width: 1000px;
+        width: 100%;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap; /* makes it responsive */
+    }
+
+    .image-text-section img {
+        flex: 1 1 300px;
+        max-width: 400px;
+        width: 100%;
+        border-radius: 16px;
+        object-fit: cover;
+    }
+
+    .image-text-content {
+        flex: 1 1 300px;
+        color: white;
+    }
+
+        .image-text-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+        }
+
+        .image-text-content p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin: 0;
+        }
+
+    /* Center stacked on small screens */
+    @@media (max-width: 700px) {
+        .image-text-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .image-text-section img {
+                max-width: 90%;
+            }
+    }
+
+    footer {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        color: #ddd;
+        font-size: 0.95rem;
+        margin-top: 40px;
+    }
+
+    footer a {
+        color: #e7571d;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+    .footer-links {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+
+</style>
+
+<div class="page">
+    <main>
+        <div class="navigation-bar">
+    <div class="logo">Matthew Kenyon</div>
+    <nav>
+        <a href="#games">Games</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
+    </nav>
+</div>
+
+        <article class="content">
+            @Body
+        </article>
+        <hr class="section-divider" />
+        <footer>
+            <div>© @DateTime.Now.Year Matthew Kenyon — All Rights Reserved</div>
+            <div class="footer-links">
+                <a href="mailto:matthew.kenyon@example.com">Email</a>
+                <a href="https://github.com/mattkenyon01" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/matthew-kenyon" target="_blank">LinkedIn</a>
+            </div>
+        </footer>
+    </main>
+</div>
