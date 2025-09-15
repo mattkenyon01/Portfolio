@@ -1,124 +1,179 @@
 ﻿@page "/Games/CastleClimbers"
+@using Portfolio.Pages
+@using Portfolio.Utilities
+@inject IJSRuntime JS
+@layout GamesAndAppsLayout
 
-<!-- Layout & App Bar (Section 1) -->
-<style>
-    /* Page & global typography */
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        background-color: #420f22;
-        font-family: 'Segoe UI', sans-serif;
-        color: white;
-        text-align: center;
-    }
-
-    /* App bar */
-    .app-bar {
-        width: 100%;
-        height: 60px;
-        background-color: #2e0b18;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        box-sizing: border-box;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-    }
-
-        .app-bar .logo {
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-
-        .app-bar nav {
-            display: flex;
-            gap: 20px;
-        }
-
-            .app-bar nav a {
-                color: white;
-                text-decoration: none;
-                font-weight: 600;
-                padding: 8px 12px;
-                border-radius: 4px;
-                transition: background-color 0.3s;
-            }
-
-                .app-bar nav a:hover {
-                    background-color: #971d21;
-                }
-
-    /* Shared content elements used in hero sections */
-    img.main-banner {
-        width: 95%;
-        max-width: 1200px;
-        height: auto;
-        margin: 80px 0 20px 0; /* space for fixed app bar */
-        border-radius: 20px;
-    }
-
-    p.description {
-        font-size: 1.2rem;
-        font-weight: 400;
-        max-width: 800px;
-        width: 100%;
-        margin: 12px auto 30px auto;
-        line-height: 1.6;
-        padding-inline: 20px; /* side padding */
-        box-sizing: border-box;
-    }
-
-    h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        margin: 0 auto;
-        max-width: 800px;
-        width: 100%;
-        padding-inline: 20px; /* keep the title consistent */
-        box-sizing: border-box;
-    }
-
-    /* Divider between sections */
-    hr.section-divider {
-        border: none;
-        height: 2px;
-        width: 100%;
-        max-width: 1000px;
-        margin: 40px auto;
-        background: #e7571d;
-        border-radius: 2px;
-        padding-inline: 20px; /* optional gutters */
-        box-sizing: border-box;
-    }
-</style>
-
-<div class="app-bar">
-    <div class="logo">Matthew Kenyon</div>
-    <nav>
-        <a href="#games">Games</a>
-        <a href="#apps">Apps</a>
-        <a href="#about">About</a>
-    </nav>
-</div>
 
 <!-- Section 1: Hero -->
 <img src="Images/Castle Climbers Cover.png" alt="Banner Image" class="main-banner" />
 <h1 id="about">Castle Climbers</h1>
 <p class="description">
-    I’m a passionate software developer dedicated to creating intuitive, impactful programs that assist people.
+    Girls Who Walk helps women discover local walking groups, make new friends,
+    and explore their area safely. Whether you want to get active, connect with others,
+    or simply enjoy the outdoors, the app makes it easy to join walks in your community.
 
     <br /><br />
 
-    I attended Newcastle University, where I was awarded the Degree of Masters of Computing with First Class Honours in
-    Computer Science (Game Engineering).
+    It was developed to help my girlfriend with the workload of running one of these groups,
+    and we believed that it could help other group leaders facing the same problems.
 </p>
 
 <hr class="section-divider" />
+
+<div class="stats-section" id="games">
+    <h2>App Production</h2>
+    <div class="stats-content">
+        <!-- Charts group -->
+        <div class="chart-group">
+            <div class="chart-item">
+                <div class="chart-container">
+                    <canvas id="grade"></canvas>
+                    <div class="chart-value" id="gradeValue">@DownloadStats.CastleClimbersDownloads</div>
+                </div>
+                <p class="chart-title">Overall Grade</p>
+            </div>
+        </div>
+
+        <!-- Note to the right -->
+        <div class="stats-note">
+            This project was completed as a dissertation at Newcastle University and was received very positively. It achieved a high First Class, with strong marks across each section. It was praised by health professionals for its thorough research into both targeted muscle engagement and cognitive benefits — including the use of colour theory to enhance memory — plus accessibility-focused design and comprehensive performance and progress tracking.
+        </div>
+    </div>
+</div>
+
+<hr class="section-divider" />
+
+<section class="image-text-section">
+    <img src="Images/Walk Graphic.png" alt="Project Screenshot" />
+    <div class="image-text-content">
+        <h2>Features</h2>
+        <p>
+            There are 8 minigames for the patient to try. They are separated into 4 groups, with 2 unique movements
+            targeted at each muscle in the hand. Three games are randomly chosen each time the user plays, so each experience
+            is different and kept entertaining and varied.
+        </p>
+    </div>
+</section>
+
+<section class="image-text-section">
+    <div class="image-text-content">
+        <h2>Scene</h2>
+        <p>
+            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
+            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
+            or replay using voice controls.
+        </p>
+    </div>
+    <img src="Images/Connect Graphic.png" alt="Project Screenshot" />
+</section>
+<section class="image-text-section">
+    <img src="Images/Customise Graphic.png" alt="Project Screenshot" />
+    <div class="image-text-content">
+        <h2>Scene</h2>
+        <p>
+            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
+            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
+            or replay using voice controls.
+        </p>
+    </div>
+
+</section>
+
+<hr class="section-divider" />
+<section class="features-section">
+    <h2>Software</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("unity")" alt="Unity Icon">
+                <img class="feature-icon" src="@IconRef.GetIcon("c#")" alt="C# Icon">
+            </div>
+            <div class="feature-title">Unity + C#</div>
+            <p class="feature-desc">
+                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("firebase")" alt="Unity Icon">
+            </div>
+            <div class="feature-title">Firebase</div>
+            <p class="feature-desc">
+                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("Javascript")" alt="Unity Icon">
+            </div>
+            <div class="feature-title">Javascript</div>
+            <p class="feature-desc">
+                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icons">
+                <img class="feature-icon" src="@IconRef.GetIcon("xcode")" alt="Unity Icon">
+                <img class="feature-icon" src="@IconRef.GetIcon("appstore")" alt="C# Icon">
+            </div>
+            <div class="feature-title">Xcode + App Store</div>
+            <p class="feature-desc">
+                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    window.renderChart = function (chartId, values) {
+        const el = document.getElementById(chartId);
+        if (!el || !window.Chart) return;
+
+        const ctx = el.getContext('2d');
+
+        // Destroy previous chart if it exists
+        if (el._chartInstance) {
+            el._chartInstance.destroy();
+        }
+
+        el._chartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['iPhone', 'iPad', 'Desktop', 'iPod'], // 4 categories
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                        '#d26239',
+                        '#a94104',
+                        '#762f13',
+                        '#4c252a' // new color for 4th input
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                animation: { duration: 700 },
+                plugins: {
+                    legend: { display: false }, // hides labels above
+                    tooltip: { enabled: true }  // keeps hover tooltips
+                }
+            }
+        });
+    };
+</script>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("renderChart", "grade", new object[] { 163, 16, 8, 1 });
+        }
+    }
+}
+
