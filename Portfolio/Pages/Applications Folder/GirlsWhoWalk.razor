@@ -31,13 +31,15 @@
                     <canvas id="grade"></canvas>
                     <div class="chart-value" id="gradeValue">@DownloadStats.GirlsWhoWalkDownloads</div>
                 </div>
-                <p class="chart-title">Overall Grade</p>
+                <p class="chart-title">Total Downloads</p>
             </div>
         </div>
 
         <!-- Note to the right -->
         <div class="stats-note">
-            This project was completed as a dissertation at Newcastle University and was received very positively. It achieved a high First Class, with strong marks across each section. It was praised by health professionals for its thorough research into both targeted muscle engagement and cognitive benefits — including the use of colour theory to enhance memory — plus accessibility-focused design and comprehensive performance and progress tracking.
+           The app has received some downloads, however the full rollout of the application hasn't started yet. Once I get
+           a few groups on the application to properly test it, I will communicate with more groups around the country to
+           see if they are interested.
         </div>
     </div>
 </div>
@@ -47,22 +49,21 @@
 <section class="image-text-section">
     <img src="Images/Walk Graphic.png" alt="Project Screenshot" />
     <div class="image-text-content">
-        <h2>Features</h2>
+        <h2>Discover Walks</h2>
         <p>
-            There are 8 minigames for the patient to try. They are separated into 4 groups, with 2 unique movements
-            targeted at each muscle in the hand. Three games are randomly chosen each time the user plays, so each experience
-            is different and kept entertaining and varied.
+            Users are able to browse the events in their local area. The events present the details, such as date and meeting location. Users can
+            see number of remaining spots available on walks, and sign up to get involved. They can also see the leaders who will be taking
+            charge of events.
         </p>
     </div>
 </section>
 
 <section class="image-text-section">
     <div class="image-text-content">
-        <h2>Scene</h2>
+        <h2>Connect & Chat</h2>
         <p>
-            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
-            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
-            or replay using voice controls.
+            Users can get involved with the community and talk to each other in the group chat, allowing them to make friends, find information about
+            certain activites and more. There are also built in safety tools and reporting functions to ensure the safety of walkers.
         </p>
     </div>
     <img src="Images/Connect Graphic.png" alt="Project Screenshot" />
@@ -70,14 +71,25 @@
 <section class="image-text-section">
     <img src="Images/Customise Graphic.png" alt="Project Screenshot" />
     <div class="image-text-content">
-        <h2>Scene</h2>
+        <h2>Admin Capabilities - CHANGE PHOTO</h2>
         <p>
-            The instructions for each game are shown beforehand, with diagrams to make it easy to play. These are presented
-            until the user clicks or says “Play,” which will then start the game. The user also has the option to pause the game
-            or replay using voice controls.
+            As the developer, I can make certain users admins, who will run their area of the app. This means groups can add their own events
+            and control their walking groups, giving more control to those who run it.
         </p>
     </div>
     
+</section>
+
+<section class="image-text-section">
+    
+    <div class="image-text-content">
+        <h2>Legal</h2>
+        <p>
+            The legal side of things was very important to this application, as it is a social media for meeting up in person. A well thought out Privacy Policy
+            and Child Safety Standard documentation were written up for the safety of users, and features like reporting users and email verification ensures this safety.
+        </p>
+    </div>
+    <img src="Images/Customise Graphic.png" alt="Project Screenshot" />
 </section>
 
 <hr class="section-divider" />
@@ -91,7 +103,7 @@
             </div>
             <div class="feature-title">Flutter + Dart</div>
             <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+                The project was originally started in Unity in March 2024, but was moved to flutter, due to its improved performance for such a project.
             </p>
         </div>
         <div class="feature-card">
@@ -100,7 +112,9 @@
             </div>
             <div class="feature-title">Firebase</div>
             <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+                Firebase was used for the backend functionality of the app. Authentication and Realtime Database kept all the data of the users, Firestore kept the 
+                data about walks and events, as well as the chat, and storage kept the images for all of this functionality. Functions was used for cleanup in the chat
+                and also worked with messaging for push notifications.
             </p>
         </div>
         <div class="feature-card">
@@ -109,7 +123,7 @@
             </div>
             <div class="feature-title">Javascript</div>
             <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+                Javascript was paired with firebase functions to update the clean up the chat and the events in the app, as well as carry out the notifications.
             </p>
         </div>
         <div class="feature-card">
@@ -119,7 +133,7 @@
             </div>
             <div class="feature-title">Xcode + App Store</div>
             <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+                Xcode was used to release the app to the App store. Since its release, it has gained @DownloadStats.GirlsWhoWalkDownloads downloads.
             </p>
         </div>
         <div class="feature-card">
@@ -128,7 +142,8 @@
             </div>
             <div class="feature-title">Google Play Store</div>
             <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+                The app was also released on the google play store, so all users could access it. It is currently only in a closed testing release, due to
+                lack of testers.
             </p>
         </div>
 
@@ -138,7 +153,7 @@
             </div>
             <div class="feature-title">AdMob</div>
             <p class="feature-desc">
-                Unity was the best application to use with OpenCV, as the pinpoints in the hand could easily be treated as individual game objects. This made it easy to verify whether the hand movements were completed correctly, since only the proximity of the tracked points needed to be checked.
+                AdMob was used to incorporate carefully placed banner ads into the app, so that revenue could be generated.
             </p>
         </div>
     </div>
